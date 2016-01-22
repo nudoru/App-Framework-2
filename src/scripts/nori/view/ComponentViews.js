@@ -8,7 +8,6 @@ import ViewComponentFactory from './Component.js';
 import BuildFromMixins from '../utils/BuildFromMixins.js';
 import Router from './URLRouter.js';
 import DeepCopy from '../../nudoru/util/DeepCopy.js';
-import ObjectAssign from '../../nudoru/util/ObjectAssign.js';
 //import ComponentMount from '../experimental/ComponentMount.js';
 
 export default function () {
@@ -56,10 +55,10 @@ export default function () {
           elID          : '',
           elClass       : ''
         };
-        return ObjectAssign({}, pDefaultProps.call(template), specs, props);
+        return Object.assign({}, pDefaultProps.call(template), specs, props);
       };
 
-      final = ObjectAssign({}, template);
+      final = Object.assign({}, template);
       final.$componentInit.call(final);
 
       if (typeof final.init === 'function') {

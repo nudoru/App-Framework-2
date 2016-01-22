@@ -20,7 +20,6 @@ import Template from './Templating.js';
 import ComponentRenderer from './ComponentRenderer.js';
 import EventDelegator from './ComponentEventDelegator.js';
 import ComponentElement from './ComponentElement.js';
-import ObjectAssign from '../../nudoru/util/ObjectAssign.js';
 import ForOwn from '../../nudoru/util/ForOwn.js';
 
 const LS_NO_INIT   = 0,
@@ -151,8 +150,8 @@ export default function () {
   }
 
   function $setPublicPropsAndState() {
-    props = ObjectAssign(props, _stateElement.props);
-    state = ObjectAssign(state, _stateElement.state);
+    props = Object.assign(props, _stateElement.props);
+    state = Object.assign(state, _stateElement.state);
   }
 
   //----------------------------------------------------------------------------
@@ -192,7 +191,7 @@ export default function () {
    * Should return HTML
    */
   function render() {
-    let combined     = ObjectAssign({}, _stateElement.props, _stateElement.state),
+    let combined     = Object.assign({}, _stateElement.props, _stateElement.state),
         templateFunc = Template.getTemplate(this.id());
 
     return templateFunc(combined);

@@ -6,7 +6,6 @@
 
 import Is from '../../nudoru/util/is.js';
 import Rxjs from 'rx';
-import ObjectAssign from '../../nudoru/util/ObjectAssign.js';
 import DeepEqual from 'deep-equal';
 import DeepCopy from '../../nudoru/util/DeepCopy.js';
 import isPlainObject from 'is-plain-object';
@@ -80,8 +79,8 @@ export default function () {
   //      return {}; // Return default state state
   //    case _noriActionConstants.MODEL_DATA_CHANGED:
   //      // can compose other reducers
-  //      // return ObjectAssign({}, state, otherStateTransformer(state));
-  //      return ObjectAssign({}, state, {prop: event.payload.value});
+  //      // return Object.assign({}, state, otherStateTransformer(state));
+  //      return Object.assign({}, state, {prop: event.payload.value});
   //    case undefined:
   //      return state;
   //    default:

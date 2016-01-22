@@ -6,11 +6,10 @@
  */
 
 import buildFromMixins from './BuildFromMixins.js';
-import ObjectAssign from '../../nudoru/util/ObjectAssign.js';
 
 export default function(template, customizer) {
   template = template || {};
   return function factory() {
-    return ObjectAssign({}, template, buildFromMixins(customizer));
+    return Object.assign({}, template, buildFromMixins(customizer));
   };
 }

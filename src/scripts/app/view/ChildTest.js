@@ -1,6 +1,4 @@
 import Nori from '../../nori/Nori.js';
-import ObjectAssign from '../../nudoru/util/ObjectAssign.js';
-
 
 export default Nori.createComponent({
 
@@ -13,7 +11,7 @@ export default Nori.createComponent({
   },
 
   render() {
-    let combined     = ObjectAssign({}, this.props, this.state),
+    let combined     = Object.assign({}, this.props, this.state),
         templateFunc = this.tmpl(`<div>
             <button class="button-neutral-light">{{id}}, {{label}}</button>
             <div class="test__subchild"></div>

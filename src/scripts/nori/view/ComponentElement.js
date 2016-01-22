@@ -1,4 +1,3 @@
-import ObjectAssign from '../../nudoru/util/ObjectAssign.js';
 import DeepEqual from 'deep-equal';
 
 /**
@@ -15,11 +14,11 @@ export default (props = {}, state = {}, children = null) => {
     lastState: null,
 
     getProps() {
-      return ObjectAssign({}, this.props);
+      return Object.assign({}, this.props);
     },
 
     getState() {
-      return ObjectAssign({}, this.state);
+      return Object.assign({}, this.state);
     },
 
     shouldUpdate(nextProps, nextState) {
@@ -31,13 +30,13 @@ export default (props = {}, state = {}, children = null) => {
     },
 
     setProps(nextProps) {
-      this.lastProps = ObjectAssign({}, this.props);
-      this.props     = ObjectAssign({}, this.props, nextProps);
+      this.lastProps = Object.assign({}, this.props);
+      this.props     = Object.assign({}, this.props, nextProps);
     },
 
     setState(nextState) {
-      this.lastState = ObjectAssign({}, this.state);
-      this.state     = ObjectAssign({}, this.state, nextState);
+      this.lastState = Object.assign({}, this.state);
+      this.state     = Object.assign({}, this.state, nextState);
     },
 
     setParent(parent) {
