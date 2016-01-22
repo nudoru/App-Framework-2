@@ -26,7 +26,7 @@ let AppViewModule = Nori.createView({
 
   defineTemplates() {
     Template.addTemplate('applicationscaffold', `<div>
-      <section id="contents"></section>
+      <section id="contents">Contents</section>
     </div>`);
   },
 

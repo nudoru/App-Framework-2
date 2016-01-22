@@ -5,7 +5,8 @@ import AppActionConstants from './action/ActionConstants.js';
 import NoriActions from '../nori/action/ActionCreator.js';
 import AppStore from './store/AppStore.js';
 import AppView from './view/AppView.js';
-//import ForOwn from '../nudoru/util/ForOwn.js';
+
+require('!style!css!sass!../../sass/app.sass');
 
 /**
  * "Controller" for a Nori application. The controller is responsible for
@@ -35,7 +36,7 @@ let App = Nori.createClass({
    * Remove the "Please wait" cover and start the app
    */
   runApplication() {
-    //AppView.showViewForChangedCondition(true); // Start with the route in the current URL
+    AppView.showViewForChangedCondition(true); // Start with the route in the current URL
   }
 
 })();
