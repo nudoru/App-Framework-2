@@ -1,0 +1,90 @@
+@import "../utils/variables"
+@import "../utils/variables-controls"
+@import "../utils/css-animation"
+
+.nuForm
+  border: none
+  margin: 0
+  padding: 0
+
+  fieldset
+    border: none
+    margin: 0
+    padding: 0
+
+  legend
+    @extend %legend
+
+  label
+    @extend %control-text-base
+    height: $control-form-element-height
+    line-height: $control-form-element-height
+    padding: 6px 0
+    display: block
+    font-weight: 400
+    margin: 0 $base-line-height $half-base-line-height 0
+
+  input[type="text"],
+  input[type="password"],
+  input[type="email"],
+  input[type="url"],
+  input[type="date"],
+  input[type="month"],
+  input[type="time"],
+  input[type="datetime"],
+  input[type="datetime-local"],
+  input[type="week"],
+  input[type="number"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="color"],
+  input[type="file"],
+  select, textarea
+    @extend %base-form-element
+
+  input[type="radio"],
+  input[type="checkbox"]
+    @extend %label
+    margin-right: $half-base-line-height
+
+  textarea
+    min-height: $control-form-element-height*1.5
+    line-height: 1.2
+
+  .form-stacked
+    label
+      display: block
+    input, select, textarea
+      display: block
+      margin: $base-line-height 0 $double-base-line-height 0
+    input[type=radio], input[type=checkbox]
+      display: inline
+      margin-right: $half-base-line-height
+
+  .form-inline
+    label
+      display: inline
+    button
+      margin-top: 0
+      margin-bottom: 0
+
+  input.form-input-error
+    border: 2px solid $control-danger-color
+
+  input.form-input-disabled
+    +control-disabled
+    &:focus
+      +control-disabled
+
+  /* Removes awkward default styles on some inputs for iOS */
+  input[type="email"],
+  input[type="number"],
+  input[type="search"],
+  input[type="text"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="password"],
+  textarea
+    -webkit-appearance: none
+    -moz-appearance: none
+    appearance: none

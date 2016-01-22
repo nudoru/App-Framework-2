@@ -1,0 +1,120 @@
+@import "../utils/variables"
+@import "../utils/variables-controls"
+@import "../utils/shadows"
+@import "../utils/css-animation"
+
+.nuTable
+  margin: 0
+  margin-bottom: $base-line-height
+  padding: 0
+  width: 100%
+  table-layout: fixed
+  border-spacing: 0
+  border-collapse: collapse
+
+  caption
+    @extend %legend
+
+  th, td
+    display: table-cell
+    padding: $table-cell-padding
+    border: none
+    vertical-align: middle
+
+  th
+    @extend %emphasis-title
+    font-size: 0.8rem
+    text-align: left
+
+  thead
+    th
+      color: $control-primary-color-dark
+      border-bottom: 1px solid $control-primary-color
+      vertical-align: bottom
+      i.fa
+        padding-left: $base-line-height
+    .th-sortable
+      +transition-all()
+      cursor: pointer
+      border-radius: $control-border-radius-large $control-border-radius-large 0 0
+      &:hover
+        background-color: $color-white-grey-line
+    .th-selected
+      color: #fff
+      background-color: $control-primary-color
+      +letter_press
+      i.fa
+        color: #fff
+      &:hover
+        background-color: $control-primary-color-dark
+
+  tfoot
+    th
+      border-bottom: none
+      border-top: 1px solid $dark-warm-grey
+      vertical-align: top
+      color: $dark-warm-grey
+
+  tbody
+    tr
+      border-bottom: $control-border
+    tr:last-child
+      border-bottom: none
+
+  .column-50px
+    width: 50px
+
+  .column-100px
+    width: 100px
+
+  .column-200px
+    width: 200px
+
+  .column-300px
+    width: 300px
+
+  .column-10pct
+    width: 10%
+
+  .column-15pct
+    width: 15%
+
+  .column-20pct
+    width: 20%
+
+  .column-25pct
+    width: 25%
+
+  .column-50pct
+    width: 50%
+
+  .middle-align
+    vertical-align: middle
+
+  .left-column
+    text-align: left
+
+  .center-column
+    text-align: center
+
+  .right-column
+    text-align: right
+
+  .cell-danger
+    +letter_press
+    background-color: $control-danger-color
+    color: #fff
+
+.nuTable-rows-zebra
+  tbody
+    th, td
+      border-bottom: none
+    tr:nth-child(odd)
+      background-color: hsla(0, 0%, 0%, .03)
+
+.nuTable-cols-zebra
+  tbody
+    tr
+      border-bottom: none
+      th:nth-child(odd), td:nth-child(odd)
+        background-color: hsla(0, 0%, 0%, .03)

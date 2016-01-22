@@ -1,0 +1,12 @@
+=respond-to($type, $query)
+  @media ($type: $query)
+    @content
+
+=max-width($width: $mqbp-tablet-mobile)
+  @media screen and (max-width: $width)
+    @content
+
+%img-responsive
+  display: block
+  height: auto
+  max-width: 100%

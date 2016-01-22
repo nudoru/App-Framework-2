@@ -1,0 +1,182 @@
+//------------------------------------------------------------------------------
+//  Headers
+//------------------------------------------------------------------------------
+
+=header-base($fontSize, $lineHeight: $double-base-line-height, $marginBottom: $double-base-line-height)
+  margin: 0
+  padding: 0
+  margin-bottom: $marginBottom
+  font-family: $font-header
+  font-size: $fontSize
+  line-height: $lineHeight
+  text-rendering: optimizeLegibility
+
+%header-1
+  +header-base($ms-5, $triple-base-line-height, $triple-base-line-height)
+  font-weight: 300
+
+%header-2
+  +header-base($ms-4, $triple-base-line-height, $triple-base-line-height)
+  font-weight: 300
+
+%header-3
+  +header-base($ms-3, $triple-base-line-height, $triple-base-line-height)
+  font-weight: 300
+
+%header-4
+  +header-base($ms-2)
+  font-weight: 300
+
+%header-5
+  +header-base($ms-1)
+  font-weight: 400
+
+%header-6
+  +header-base($ms-0)
+  font-weight: 700
+
+%small-headers
+  h1
+    @extend %header-3
+  h2
+    @extend %header-4
+  h3
+    @extend %header-5
+  h4, h5, h6
+    @extend %header-6
+
+%header-alternate
+  font-family: $font-content
+  margin-bottom: $double-base-line-height
+  padding-bottom: 0
+  padding-top: $half-base-line-height
+
+//------------------------------------------------------------------------------
+//  Paragraph
+//------------------------------------------------------------------------------
+
+=paragraph-base($size: $ms-1, $lineHeight: $double-base-line-height, $marginBottom: $double-base-line-height)
+  font-family: $font-content
+  font-size: $size
+  line-height: $lineHeight
+  font-weight: 400
+  margin-top: 0
+  margin-bottom: $marginBottom
+
+%body-text
+  +paragraph-base($base-font-size, $double-base-line-height+$half-base-line-height, $double-base-line-height)
+
+%body-text-small
+  +paragraph-base($ms--1, $triple-base-line-height, $double-base-line-height)
+
+%body-text-big
+  +paragraph-base($ms-2, $triple-base-line-height, $double-base-line-height)
+
+%compressed-paragraph
+  display: inline
+  &:before
+    content: '\00b6'
+    color: rgba(0,0,0,.25)
+    margin-left: $base-line-height
+    margin-right: $half-base-line-height
+  &:first-of-type
+    &:before
+      margin-left: 0
+
+
+
+//------------------------------------------------------------------------------
+//  Misc
+//------------------------------------------------------------------------------
+
+// Based on Medium https://medium.com/designing-medium/crafting-link-underlines-on-medium-7c03a9274f9
+// http://codepen.io/ghepting/pen/tLnHK/
+//$background-color: #fff !default
+//$link-color: #333 !default
+//$link-color-active: #55abad !default
+//$link-underline-color: $link-color !default
+//$link-underline-color-active: $link-color-active !default
+
+$link-underline-width: 1px !default
+$link-underline-offset: 2px !default
+$breaking-underlines: true !default
+
+=breaking-underline($background: #fff)
+  text-shadow: -1px -1px 0 $background, 1px -1px 0 $background, -1px 1px 0 $background, 1px 1px 0 $background
+
+=underline($color: $color-link, $weight: $link-underline-width, $offset: $link-underline-offset)
+  background-image: linear-gradient(bottom, transparent, transparent $offset, $color $offset, $color ($offset + $weight), transparent ($offset + $weight))
+
+%prevent-text-selection
+  -webkit-touch-callout: none
+  -webkit-user-select: none
+  -khtml-user-select: none
+  -moz-user-select: none
+  -ms-user-select: none
+  user-select: none
+
+%overflow-ellipsis
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+// ONLY WORKS IF THE BODY FONT SIZE PCT IS 62.5
+=font-rem($sizeValue: 1.6)
+  font-size: ($sizeValue * 10) + px
+  font-size: $sizeValue + rem
+
+//http://kenneth.io/blog/2012/03/04/word-wrapping-hypernation-using-css/
+=force-break-all-words
+  -ms-word-break: break-all
+  word-break: break-all
+  //word-break: break-word
+  -webkit-hyphens: auto
+  -moz-hyphens: auto
+  -ms-hyphens: auto
+  hyphens: auto
+
+// Optional hyphenation
+=hyphens($mode: auto)
+  word-wrap: break-word
+  -webkit-hyphens: $mode
+  -moz-hyphens: $mode
+  -ms-hyphens: $mode // IE10+
+  -o-hyphens: $mode
+  hyphens: $mode
+
+// Form Placeholder text
+=placeholder($color: $input-color-placeholder)
+  &:-moz-placeholder
+    color: $color
+  &::-moz-placeholder
+    color: $color
+  &:-ms-input-placeholder
+    color: $color
+  &::-webkit-input-placeholder
+    color: $color
+
+// Text overflow
+// Requires inline-block or block for proper styling
+=text-overflow()
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+=text-size-100pct
+  -webkit-text-size-adjust: 100%
+  -moz-text-size-adjust: 100%
+  -ms-text-size-adjust: 100%
+  -o-text-size-adjust: 100%
+  text-size-adjust: 100%
+
+=smoothing ($action: antialiased)
+  -webkit-font-smoothing: $action
+  -moz-font-smoothing: $action
+  -ms-font-smoothing: $action
+  -o-font-smoothing: $action
+  font-smoothing: $action
+
+=text-truncate
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap

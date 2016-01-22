@@ -1,0 +1,44 @@
+/*
+Gridly
+https://github.com/IonicaBizau/gridly
+*/
+
+.grow {
+    display: flex
+}
+
+.gcol {
+    flex: 1
+}
+
+@media (max-width: 48em) {
+    .grow {
+        flex-direction: column
+    }
+
+    .gcol {
+        flex: 0 0 auto
+    }
+}
+
+@media (min-width: 48em) {
+    .gcol-tenth {
+        flex: 0 0 10%
+    }
+
+    .gcol-fifth {
+        flex: 0 0 20%
+    }
+
+    .gcol-quarter {
+        flex: 0 0 25%
+    }
+
+    .gcol-third {
+        flex: 0 0 33.3333334%
+    }
+
+    .gcol-half {
+        flex: 0 0 50%
+    }
+}

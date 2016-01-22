@@ -1,0 +1,163 @@
+@import "../vendor/material-colors"
+
+//------------------------------------------------------------------------------
+//  Typography and uniform spacing
+//------------------------------------------------------------------------------
+
+$font-header: 'Oxygen', 'Helvetica Neue', Helvetica, Arial, sans-serif !default
+$font-content: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !default
+
+// Measure test line
+// Lorem ipsum dolor sit amet, consectetuer adipiscing elit accumsan
+// http://modularscale.com/scale/?px1=16&px2=11&ra1=1.618&ra2=0
+
+//Modular scale http://www.modularscale.com/?16,960&px&1.618&sass&text
+$ms-10: 11.089rem
+$ms-9: 8.755rem
+$ms-8: 6.854rem
+$ms-7: 5.411rem
+$ms-6: 4.236rem
+$ms-5: 3.344rem
+$ms-4: 2.618rem
+$ms-3: 2.067rem
+$ms-2: 1.618rem
+$ms-1: 1.277rem
+$ms-0: 1rem
+$ms--1: 0.618rem
+$ms--2: 0.382rem
+$ms--3: 0.236rem
+$ms--4: 0.146rem
+
+$base-font-size: $ms-0
+$base-line-height: 11px
+$half-base-line-height: ($base-line-height * .5)
+$double-base-line-height: ($base-line-height * 2)
+$triple-base-line-height: ($base-line-height * 3)
+
+//------------------------------------------------------------------------------
+//  Colors
+//------------------------------------------------------------------------------
+
+// Google's Matieral has a great palette https://www.google.com/design/spec/style/color.html#color-color-palette
+
+$light-blue: rgb(0,169,224)
+$dark-blue: rgb(0,94,184)
+$light-teal: rgb(0,156,166)
+$dark-teal: rgb(0,115,119)
+$light-green: rgb(104, 187, 112)
+$dark-green: rgb(59, 142, 67)
+$light-orange: rgb(240,179,35)
+$dark-orange: rgb(220,134,51)
+$light-red: rgb(166,25,46)
+$dark-red: rgb(118,35,47)
+$light-purple: rgb(147,50,142)
+$dark-purple: rgb(81,45,109)
+$light-grey: rgb(117,120,123)
+$dark-grey: rgb(83,86,90)
+$light-warm-grey: rgb(150,140,131)
+$dark-warm-grey: rgb(110,98,89)
+$light-cool-grey: rgba(120, 144, 156, 1.0)
+$dark-cool-grey: rgba(84, 110, 122, 1.0)
+$light-beige: rgb(191,187,153)
+$dark-beige: rgb(155,148,95)
+
+$color-nocolor: transparent
+$color-base-light: $light-warm-grey
+$color-base-dark: $dark-warm-grey
+$color-text: $color-base-dark
+$color-text-header: $color-text
+$color-text-content: $color-text
+$color-link: $dark-blue
+$color-link-hover: $light-blue
+$color-link-active: $light-blue
+$color-link-visited: darken($dark-blue, 25)
+$color-shaded: lighten($color-base-light, 85)
+$color-white-grey-fill: lighten($color-base-light, 43)
+$color-white-grey-line: lighten($color-base-light, 40)
+$color-pop: $clr-orange-600
+
+//------------------------------------------------------------------------------
+//  Other measures
+//------------------------------------------------------------------------------
+
+$border-radius: $half-base-line-height
+$column-gap-two: $double-base-line-height
+
+//------------------------------------------------------------------------------
+//  Responsive
+//------------------------------------------------------------------------------
+
+// Ideas for media queries https://gist.github.com/bobbygrace/9e961e8982f42eb91b80?utm_source=html5weekly&utm_medium=email#media-queries
+
+$mqbp-huge: 1200px !default
+$mqbp-large: 1000px !default
+$mqbp-small: 750px !default
+$mqbp-tiny: 475px !default
+
+// Media query variables from Trello style guide
+$mq-highdensity: "only screen and (-webkit-min-device-pixel-ratio: 1.5)", "only screen and (min--moz-device-pixel-ratio: 1.5)","only screen and (-o-min-device-pixel-ratio: 3/2)", "only screen and (min-device-pixel-ratio: 1.5)"
+$mq-small: "only screen and (max-width: 750px)"
+$mq-medium: "only screen and (min-width: 751px) and (max-width: 900px)"
+$mq-large: "only screen and (min-width: 901px) and (max-width: 1280px)"
+$mq-extra-large: "only screen and (min-width: 1281px)"
+$mq-print: "print"
+
+//------------------------------------------------------------------------------
+//  Controls
+//------------------------------------------------------------------------------
+
+$control-font: $font-content
+$control-padding: $base-line-height
+$control-padding-small: $half-base-line-height
+$control-margin: $base-line-height
+$control-card-margin: $double-base-line-height
+$table-cell-padding: $base-line-height
+$control-form-element-height: 38px
+$grid-padding: $double-base-line-height
+$control-border: 1px solid $color-white-grey-line
+$control-border-dark: 1px solid $light-warm-grey
+$control-border-radius: 5px
+$control-border-radius-large: 10px
+$control-border-radius-small: 3px
+$control-panel-border-radius: $control-border-radius
+$control-button-border-radius: 50px
+
+//------------------------------------------------------------------------------
+//  Colors
+//------------------------------------------------------------------------------
+
+$control-primary-color: $light-blue
+$control-primary-color-dark: $dark-blue
+$control-container-color: rgb(255,255,255)
+$control-header-color: $color-white-grey-fill
+$control-footer-color: $color-white-grey-fill
+$control-success-color: rgba(76, 175, 80, 1.0)
+$control-success-color-dark: darken($control-success-color, 20)
+$control-warning-color: rgba(255, 193, 7, 1.0)
+$control-warning-color-dark: darken($control-warning-color, 20)
+$control-danger-color: rgba(255, 61, 0, 1.0)
+$control-danger-color-dark: darken($control-danger-color, 20)
+$control-info-color: $light-blue
+$control-info-color-dark: darken($control-info-color, 20)
+$control-neutral-color: $light-warm-grey
+$control-neutral-color-dark: darken($control-neutral-color, 20)
+$control-font-color: rgb(100,100,100)
+$control-font-neg-color: rgb(255,255,255)
+$control-table-zebra-color: hsla(0, 0%, 0%, .03)
+
+//------------------------------------------------------------------------------
+//  Properties
+//------------------------------------------------------------------------------
+
+$control-font-text-shadow: 0 1px 0 rgba(0,0,0,.25)
+$control-font-neg-text-shadow: 0 1px 0 rgba(0,0,0,.45)
+$control-shadow: 0 5px 5px -4px rgba(0,0,0,.25)
+
+//------------------------------------------------------------------------------
+//  Application specific
+//------------------------------------------------------------------------------
+
+$z-index-initialization: 1100
+$app-column-width: 100%
+$app-header-height: 65px
+$app-drawer-width: 0px

@@ -1,0 +1,33 @@
+@import "../utils/variables"
+@import "../utils/variables-controls"
+@import "../utils/typography"
+@import "../utils/shadows"
+
+
+
+.nuLabel
+  @extend %label
+
+.nuLabel-small
+  @extend %label
+  font-size: $ms--1
+
+.nuLabel-big
+  @extend %label
+  font-size: $ms-1
+
+.nuLabel-information
+  @extend %label-shaded
+  background-color: $control-info-color
+
+.nuLabel-success
+  @extend %label-shaded
+  background-color: $control-success-color
+
+.nuLabel-warning
+  @extend %label-shaded
+  background-color: $control-warning-color
+
+.nuLabel-danger
+  @extend %label-shaded
+  background-color: $control-danger-color

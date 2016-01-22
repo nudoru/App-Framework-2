@@ -1,0 +1,74 @@
+@import "variables"
+@import "shadows"
+@import "css-animation"
+
+=control-disabled
+  background-color: $color-shaded
+  color: $color-base-dark
+  border: none
+  box-shadow: none
+  text-shadow: none
+  cursor: default
+
+%control-text-base
+  font-family: $font-content
+  font-weight: 400
+  display: inline-block
+  vertical-align: middle
+
+%emphasis-title
+  text-transform: uppercase
+  letter-spacing: 0.05rem
+
+%legend
+  margin-bottom: $double-base-line-height
+  width: 100%
+  font-size: $ms-0
+  font-weight: 700
+  color: $control-primary-color-dark
+  text-align: left
+
+%base-form-element
+  +transition-all(.25s)
+  @extend %control-text-base
+  height: $control-form-element-height
+  padding: 6px $base-line-height
+  border: $control-border-dark
+  border-radius: $control-border-radius
+  background-color: $color-white-grey-fill
+  color: $control-primary-color-dark
+  line-height: 1
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, .1), inset -2px -2px 0 #fff
+  text-shadow: 1px 1px 0 #fff
+  &:focus
+    background-color: #fff
+    border: 1px solid $control-primary-color-dark
+    box-shadow: 0 0 10px $control-primary-color
+    outline: 0
+
+%label
+  @extend %control-text-base
+  padding: $control-padding-small
+  display: inline-block
+  white-space: nowrap
+
+%label-shaded
+  @extend %label
+  +letter_press
+  padding: $base-line-height
+  line-height: 1.2
+  border-radius: $control-border-radius
+  color: $control-font-neg-color !important
+
+%button
+  +transition-all()
+  @extend %emphasis-title
+  margin: $half-base-line-height
+  border-radius: $control-button-border-radius
+  border: 1px solid rgba(0,0,0,.15)
+  line-height: 1.2
+  text-align: center
+  cursor: pointer
+  i.fa
+    position: relative
+    font-weight: 400
