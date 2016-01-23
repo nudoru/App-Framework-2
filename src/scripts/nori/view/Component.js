@@ -19,8 +19,7 @@ import DOMUtils from '../../nudoru/browser/DOMUtils.js';
 import Template from './Templating.js';
 import ComponentRenderer from './ComponentRenderer.js';
 import EventDelegator from './ComponentEventDelegator.js';
-import ComponentElement from './ComponentElement.js';
-import {forOwn, reduce } from 'lodash';
+import { isEqual, forOwn, reduce } from 'lodash';
 
 const LS_NO_INIT   = 0,
       LS_INITED    = 1,
@@ -31,7 +30,12 @@ const LS_NO_INIT   = 0,
 
 export default function () {
 
-  let _stateElement,
+  let _internalProps,
+      _internalState,
+      _children,
+      _parent,
+      _lastProps,
+      _lastState,
       _events         = EventDelegator(),
       _lifecycleState = LS_NO_INIT,
       state           = {},
@@ -44,7 +48,9 @@ export default function () {
    * @param initProps
    */
   function $componentInit() {
-    _stateElement = ComponentElement(this.getDefaultProps(), this.getDefaultState(), {});
+    _internalProps = this.getDefaultProps();
+    _internalState = this.getDefaultState();
+    _children = {};
     this.$processChildren();
     this.$setPublicPropsAndState();
     _lifecycleState = LS_INITED;
@@ -84,6 +90,14 @@ export default function () {
     return {};
   }
 
+  //function getProps() {
+  //  return Object.assign({}, _internalProps);
+  //}
+  //
+  //function getState() {
+  //  return Object.assign({}, _internalState);
+  //}
+
   /**
    * Sets the next state and trigger a rerender
    */
@@ -122,14 +136,31 @@ export default function () {
     if (typeof this.componentWillReceiveProps === 'function' && _lifecycleState >= LS_INITED) {
       this.componentWillReceiveProps(nextProps);
     }
-
     this.$updatePropsAndState(nextProps, null);
   }
 
+  function shouldUpdate(nextProps, nextState) {
+    nextProps     = nextProps || _internalProps;
+    nextState     = nextState || _internalState;
+    let isStateEq = isEqual(nextState, _internalState),
+        isPropsEq = isEqual(nextProps, _internalProps);
+    return !(isStateEq) || !(isPropsEq);
+  }
+
+  function updateProps(nextProps) {
+    _lastProps = Object.assign({}, _internalProps);
+    _internalProps     = Object.assign({}, _internalProps, nextProps);
+  }
+
+  function updateState(nextState) {
+    _lastState = Object.assign({}, _internalState);
+    _internalState     = Object.assign({}, _internalState, nextState);
+  }
+  
   function $updatePropsAndState(nextProps, nextState) {
-    nextProps = nextProps || _stateElement.props;
-    nextState = nextState || _stateElement.state;
-    if (!_stateElement.shouldUpdate(nextProps, nextState)) {
+    nextProps = nextProps || _internalProps;
+    nextState = nextState || _internalState;
+    if (!shouldUpdate(nextProps, nextState)) {
       return;
     }
 
@@ -137,21 +168,21 @@ export default function () {
       this.componentWillUpdate(nextProps, nextState);
     }
 
-    _stateElement.setProps(nextProps);
-    _stateElement.setState(nextState);
+    updateProps(nextProps);
+    updateState(nextState);
 
     this.$setPublicPropsAndState();
 
     this.$renderAfterPropsOrStateChange();
 
     if (typeof this.componentDidUpdate === 'function' && _lifecycleState > LS_INITED) {
-      this.componentDidUpdate(_stateElement.lastProps, _stateElement.lastState);
+      this.componentDidUpdate(_lastProps, _lastState);
     }
   }
 
   function $setPublicPropsAndState() {
-    props = Object.assign(props, _stateElement.props);
-    state = Object.assign(state, _stateElement.state);
+    props = Object.assign(props, _internalProps);
+    state = Object.assign(state, _internalState);
   }
 
   //----------------------------------------------------------------------------
@@ -191,7 +222,7 @@ export default function () {
    * Should return HTML
    */
   function render() {
-    let combined     = Object.assign({}, _stateElement.props, _stateElement.state),
+    let combined     = Object.assign({}, _internalProps, _internalState),
         templateFunc = Template.getTemplate(this.id());
 
     return templateFunc(combined);
@@ -236,7 +267,7 @@ export default function () {
 
   function $addEvents() {
     if (this.shouldDelegateEvents() && typeof this.getDOMEvents === 'function') {
-      _events.delegateEvents(this.dom(), this.getDOMEvents(), _stateElement.props.autoFormEvents);
+      _events.delegateEvents(this.dom(), this.getDOMEvents(), _internalProps.autoFormEvents);
     }
   }
 
@@ -255,8 +286,8 @@ export default function () {
     this.$unmountChildren();
     this.$removeEvents();
 
-    if (_stateElement.props.attach === 'replace') {
-      DOMUtils.removeAllElements(document.querySelector(_stateElement.props.target));
+    if (_internalProps.attach === 'replace') {
+      DOMUtils.removeAllElements(document.querySelector(_internalProps.target));
     } else {
       if (this.dom()) {
         DOMUtils.removeElement(this.dom());
@@ -297,12 +328,14 @@ export default function () {
       });
       $forceUpdateChildren.bind(this)();
     } else {
-      _stateElement.children = {};
+      _children = {};
     }
   }
 
   function addChild(id, child, update) {
-    _stateElement.addChild(id, child);
+    if (!_children.hasOwnProperty(id)) {
+      _children[id] = child;
+    }
 
     child.setParent(this);
 
@@ -312,11 +345,11 @@ export default function () {
   }
 
   function setParent(parent) {
-    _stateElement.setParent(parent);
+    _parent = parent;
   }
 
   function getParent() {
-    return _stateElement.getParent();
+    return _parent;
   }
 
   /**
@@ -325,7 +358,7 @@ export default function () {
    */
   function $forceUpdateChildren() {
     if (_lifecycleState === LS_MOUNTED) {
-      forOwn(_stateElement.children, child => {
+      forOwn(_children, child => {
         if (!child.isMounted()) {
           child.$renderComponent();
           child.mount();
@@ -335,47 +368,47 @@ export default function () {
   }
 
   function child(id) {
-    if (_stateElement.children.hasOwnProperty(id)) {
-      return _stateElement.children[id];
+    if (_children.hasOwnProperty(id)) {
+      return _children[id];
     }
     console.warn(this.id(), 'Child not found', id);
     return null;
   }
 
   function $renderChildren() {
-    forOwn(_stateElement.children, child => {
+    forOwn(_children, child => {
       child.$renderComponent();
     });
   }
 
   function $getChildHTMLObject() {
-    return reduce(_stateElement.children, (htmlObj, current, key) => {
+    return reduce(_children, (htmlObj, current, key) => {
       htmlObj[key] = current.getHTML();
       return htmlObj;
     }, {});
   }
 
   function $mountChildren() {
-    forOwn(_stateElement.children, child => {
+    forOwn(_children, child => {
       child.$mountComponent();
     });
   }
 
   function $unmountChildren() {
-    forOwn(_stateElement.children, child => {
+    forOwn(_children, child => {
       child.unmount();
     });
   }
 
   function $disposeChildren() {
-    forOwn(_stateElement.children, child => {
+    forOwn(_children, child => {
       child.dispose();
     });
   }
 
   function disposeChild(id) {
-    if (_stateElement.children.hasOwnProperty(id)) {
-      _stateElement.children[id].dispose();
+    if (_children.hasOwnProperty(id)) {
+      _children[id].dispose();
     } else {
       console.warn('Cannot remove child. ', id, 'not found');
     }
@@ -394,7 +427,7 @@ export default function () {
   }
 
   function id() {
-    return _stateElement.props.id;
+    return _internalProps.id;
   }
 
   function dom() {
@@ -409,7 +442,7 @@ export default function () {
   }
 
   function className() {
-    return CLASS_PREFIX + _stateElement.props.index;
+    return CLASS_PREFIX + _internalProps.index;
   }
 
 

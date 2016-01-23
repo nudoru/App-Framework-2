@@ -6,12 +6,11 @@ export default Nori.createComponent({
 
   getDOMEvents() {
     return {
-      'click button.button-neutral-light': () => this.setProps({label: 'Clicked ' + (++this.counter) + ' times'})
+      'click button.nuButton-neutral-light': () => this.setProps({label: 'Clicked ' + (++this.counter) + ' times'})
     };
   },
 
   render() {
-    console.log('render child test');
     let combined     = Object.assign({}, this.props, this.state),
         templateFunc = this.tmpl(`<div>
             <button class="nuButton-neutral-light">{{id}}, {{label}}</button>
