@@ -1,4 +1,4 @@
-/* @flow weak */
+
 
 /**
  * Base module for components
@@ -50,7 +50,7 @@ export default function () {
   function $componentInit() {
     _internalProps = this.getDefaultProps();
     _internalState = this.getDefaultState();
-    _children = {};
+    _children      = {};
     this.$processChildren();
     this.$setPublicPropsAndState();
     _lifecycleState = LS_INITED;
@@ -148,15 +148,15 @@ export default function () {
   }
 
   function updateProps(nextProps) {
-    _lastProps = Object.assign({}, _internalProps);
-    _internalProps     = Object.assign({}, _internalProps, nextProps);
+    _lastProps     = Object.assign({}, _internalProps);
+    _internalProps = Object.assign({}, _internalProps, nextProps);
   }
 
   function updateState(nextState) {
-    _lastState = Object.assign({}, _internalState);
-    _internalState     = Object.assign({}, _internalState, nextState);
+    _lastState     = Object.assign({}, _internalState);
+    _internalState = Object.assign({}, _internalState, nextState);
   }
-  
+
   function $updatePropsAndState(nextProps, nextState) {
     nextProps = nextProps || _internalProps;
     nextState = nextState || _internalState;
@@ -264,6 +264,8 @@ export default function () {
 
     _lifecycleState = LS_MOUNTED;
   }
+
+
 
   function $addEvents() {
     if (this.shouldDelegateEvents() && typeof this.getDOMEvents === 'function') {

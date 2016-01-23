@@ -1,4 +1,4 @@
-/* @flow weak */
+
 
 export default {
 

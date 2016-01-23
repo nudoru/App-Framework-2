@@ -1,4 +1,4 @@
-/* @flow weak */
+
 
 import Rxjs from '../../vendor/rxjs/rx.lite.min.js';
 

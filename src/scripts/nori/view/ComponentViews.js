@@ -1,4 +1,4 @@
-/* @flow weak */
+
 
 /**
  * Mixin view that allows for component views

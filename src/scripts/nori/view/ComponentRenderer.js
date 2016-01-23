@@ -1,4 +1,4 @@
-/* @flow weak */
+
 
 import DOMUtils from '../../nudoru/browser/DOMUtils.js';
 

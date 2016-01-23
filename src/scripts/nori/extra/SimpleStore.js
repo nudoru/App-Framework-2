@@ -1,4 +1,4 @@
-/* @flow weak */
+
 
 import ObjectAssign from '../../nudoru/util/ObjectAssign.js';
 

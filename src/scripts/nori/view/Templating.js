@@ -1,4 +1,4 @@
-/* @flow weak */
+
 
 /*
  Facade for HTML templating

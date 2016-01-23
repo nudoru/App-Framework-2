@@ -1,4 +1,4 @@
-/* @flow weak */
+
 
 import ComponentViews from './view/ComponentViews.js';
 import AssignArray from './utils/AssignArray.js';
