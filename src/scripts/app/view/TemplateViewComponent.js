@@ -2,6 +2,9 @@ import Nori from '../../nori/Nori.js';
 import NoriActions from '../../nori/action/ActionCreator';
 import AppView from './AppView';
 import AppStore from '../store/AppStore';
+import h from 'hyperscript';
+
+const { div, span, h1 } = require('hyperscript-helpers')(h);
 
 /**
  * Module for a dynamic application view for a route or a persistent view
