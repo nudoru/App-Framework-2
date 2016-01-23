@@ -36,7 +36,7 @@ export default {
     customizer.mixins.push(this);
     return CreateClass({}, customizer)();
   },
-  
+
   /**
    * Creates a application view
    * @param customizer
