@@ -42,6 +42,8 @@
   "dependencies": {
     "deep-equal": "^1.0.1",
     "deepmerge": "^0.2.10",
+    "hyperscript": "^1.4.7",
+    "hyperscript-helpers": "^2.0.3",
     "immutable": "^3.7.5",
     "is-plain-object": "^2.0.1",
     "lodash": "^3.10.1",
