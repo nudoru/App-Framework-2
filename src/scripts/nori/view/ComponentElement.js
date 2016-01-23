@@ -1,4 +1,4 @@
-import DeepEqual from 'deep-equal';
+import { isEqual } from 'lodash';
 
 /**
  * Holds state for an Component
@@ -24,8 +24,8 @@ export default (props = {}, state = {}, children = null) => {
     shouldUpdate(nextProps, nextState) {
       nextProps     = nextProps || this.props;
       nextState     = nextState || this.state;
-      let isStateEq = DeepEqual(nextState, this.state),
-          isPropsEq = DeepEqual(nextProps, this.props);
+      let isStateEq = isEqual(nextState, this.state),
+          isPropsEq = isEqual(nextProps, this.props);
       return !(isStateEq) || !(isPropsEq);
     },
 

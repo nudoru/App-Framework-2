@@ -20,7 +20,7 @@ import Template from './Templating.js';
 import ComponentRenderer from './ComponentRenderer.js';
 import EventDelegator from './ComponentEventDelegator.js';
 import ComponentElement from './ComponentElement.js';
-import {forOwn, reduce } from 'lodash';
+import _ from 'lodash';
 
 const LS_NO_INIT   = 0,
       LS_INITED    = 1,
@@ -290,7 +290,7 @@ export default function () {
 
   function addChildren(childObjs) {
     if (childObjs) {
-      forOwn(childObjs, (child, id) => {
+      _.forOwn(childObjs, (child, id) => {
         if (childObjs.hasOwnProperty(id)) {
           this.addChild(id, child, false);
         }
@@ -325,7 +325,7 @@ export default function () {
    */
   function $forceUpdateChildren() {
     if (_lifecycleState === LS_MOUNTED) {
-      forOwn(_stateElement.children, child => {
+      _.forOwn(_stateElement.children, child => {
         if (!child.isMounted()) {
           child.$renderComponent();
           child.mount();
@@ -343,32 +343,32 @@ export default function () {
   }
 
   function $renderChildren() {
-    forOwn(_stateElement.children, child => {
+    _.forOwn(_stateElement.children, child => {
       child.$renderComponent();
     });
   }
 
   function $getChildHTMLObject() {
-    return reduce(_stateElement.children, (htmlObj, current, key) => {
+    return _.reduce(_stateElement.children, (htmlObj, current, key) => {
       htmlObj[key] = current.getHTML();
       return htmlObj;
     }, {});
   }
 
   function $mountChildren() {
-    forOwn(_stateElement.children, child => {
+    _.forOwn(_stateElement.children, child => {
       child.$mountComponent();
     });
   }
 
   function $unmountChildren() {
-    forOwn(_stateElement.children, child => {
+    _.forOwn(_stateElement.children, child => {
       child.unmount();
     });
   }
 
   function $disposeChildren() {
-    forOwn(_stateElement.children, child => {
+    _.forOwn(_stateElement.children, child => {
       child.dispose();
     });
   }
