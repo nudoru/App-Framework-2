@@ -12,6 +12,18 @@
  * Unmount: componentWillUnmount
  */
 
+//----------------------------------------------------------------------------
+//  Lifecycle stubs
+//----------------------------------------------------------------------------
+
+// getDOMEvents()
+// componentWillReceiveProps(nextProps)
+// componentWillUpdate(nextProps, nextState)
+// componentDidUpdate(lastProps, lastState)
+// componentDidMount()
+// componentWillUnmount()
+// componentWillDispose()
+
 import Is from '../../nudoru/util/is.js';
 import DOMUtils from '../../nudoru/browser/DOMUtils.js';
 import Template from './Templating.js';
@@ -484,18 +496,6 @@ export default function () {
   }
 
   //----------------------------------------------------------------------------
-  //  Lifecycle stubs
-  //----------------------------------------------------------------------------
-
-  //function getDOMEvents() {}
-  //function componentWillReceiveProps(nextProps) {}
-  //function componentWillUpdate(nextProps, nextState) {}
-  //function componentDidUpdate(lastProps, lastState) {}
-  //function componentDidMount() {}
-  //function componentWillUnmount() {}
-  //function componentWillDispose() {}
-
-  //----------------------------------------------------------------------------
   //  API
   //----------------------------------------------------------------------------
 
@@ -511,7 +511,6 @@ export default function () {
     getDefaultProps,
     isInitialized,
     id,
-    //template,
     dom,
     html,
     isMounted,

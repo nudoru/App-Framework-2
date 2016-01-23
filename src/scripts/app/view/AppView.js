@@ -1,11 +1,14 @@
 import Nori from '../../nori/Nori.js';
-import AppStore from '../store/AppStore.js';
 import TemplateViewFactory from './TemplateViewComponent.js';
 import ComponentTesting from './ComponentsTesting.js';
 import ControlsTesting from './ControlsTesting.js';
-import Template from '../../nori/view/Templating.js';
 import DOMUtils from '../../nudoru/browser/DOMUtils.js';
 import ChildTest from './ChildTest.js';
+
+import ViewApp from './view.App';
+
+import h from 'hyperscript';
+const { div, span, h1 } = require('hyperscript-helpers')(h);
 
 /**
  * View for an application.
@@ -15,19 +18,11 @@ let AppViewModule = Nori.createView({
   mixins: [],
 
   initialize() {
-    this.defineTemplates();
-
-    this.attachTemplatesToEl('#app', ['applicationscaffold']);
+    document.querySelector('#app').appendChild(ViewApp.render());
 
     this.initializeRouteViews();
 
     this.mapRoutes();
-  },
-
-  defineTemplates() {
-    Template.addTemplate('applicationscaffold', `<div>
-      <section id="contents">Contents</section>
-    </div>`);
   },
 
   mapRoutes() {
@@ -70,22 +65,6 @@ let AppViewModule = Nori.createView({
     this.route('/controls', vcControls);
     this.route('/comps', vcComponents);
   },
-
-  /**
-   * Attach app HTML structure
-   * @param templates
-   */
-  attachTemplatesToEl(mountSelector, templateArray) {
-    let mountEl = document.querySelector(mountSelector);
-
-    if (!templateArray) {
-      return;
-    }
-
-    templateArray.forEach(function (templ) {
-      mountEl.appendChild(DOMUtils.HTMLStrToNode(Template.getSource(templ, {})));
-    });
-  }
 
 })();
 
