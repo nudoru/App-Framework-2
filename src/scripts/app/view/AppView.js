@@ -4,6 +4,7 @@ import ComponentTesting from './ComponentsTesting.js';
 import ControlsTesting from './ControlsTesting.js';
 import DOMUtils from '../../nudoru/browser/DOMUtils.js';
 import ChildTest from './ChildTest.js';
+import {append} from '../../nori/view/AppendView';
 
 import ViewApp from './view.App';
 
@@ -18,7 +19,7 @@ let AppViewModule = Nori.createView({
   mixins: [],
 
   initialize() {
-    document.querySelector('#app').appendChild(ViewApp.render());
+    append(ViewApp, '#app');
 
     this.initializeRouteViews();
 
@@ -51,12 +52,12 @@ let AppViewModule = Nori.createView({
             label : 'aaAppened2'
           }),
           Nori.createComponent()('div', {
-            target: '#debug-child',
+            target : '#debug-child',
             elInner: 'testing dom el temp',
-            elID: 'my-el',
+            elID   : 'my-el',
             elClass: 'h3-alternate'
-          },ChildTest('append5', {
-            label : 'On dom el'
+          }, ChildTest('append5', {
+            label: 'On dom el'
           })));
 
     // condition, component ID
@@ -64,7 +65,7 @@ let AppViewModule = Nori.createView({
     this.route('/styles', vcStyles);
     this.route('/controls', vcControls);
     this.route('/comps', vcComponents);
-  },
+  }
 
 })();
 
