@@ -17,7 +17,7 @@ let AppViewModule = Nori.createView({
   initialize() {
     this.defineTemplates();
 
-    this.attachTemplatesToEl('body', ['applicationscaffold']);
+    this.attachTemplatesToEl('#app', ['applicationscaffold']);
 
     this.initializeRouteViews();
 

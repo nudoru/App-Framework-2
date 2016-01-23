@@ -41,7 +41,6 @@ export default Nori.createComponent({
    * Component HTML was attached to the DOM
    */
   componentDidMount() {
-
     let dyn = {};
 
     [1, 2, 3].forEach(id => {
@@ -55,7 +54,7 @@ export default Nori.createComponent({
 
     this.addChildren(dyn);
 
-    this._testNudoruComponents();
+    //this._testNudoruComponents();
   },
 
   _testNudoruComponents() {
@@ -65,7 +64,6 @@ export default Nori.createComponent({
     _actionFourEl  = document.getElementById('action-four');
     _actionFiveEl  = document.getElementById('action-five');
     _actionSixEl   = document.getElementById('action-six');
-
 
     _actionFourEl.addEventListener('click', function actFour(e) {
       _this.child('testChild').setProps({label: 'From the parent'});

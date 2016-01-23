@@ -20,7 +20,7 @@ import Template from './Templating.js';
 import ComponentRenderer from './ComponentRenderer.js';
 import EventDelegator from './ComponentEventDelegator.js';
 import ComponentElement from './ComponentElement.js';
-import ForOwn from '../../nudoru/util/ForOwn.js';
+import _ from 'lodash';
 
 const LS_NO_INIT   = 0,
       LS_INITED    = 1,
@@ -290,7 +290,7 @@ export default function () {
 
   function addChildren(childObjs) {
     if (childObjs) {
-      ForOwn(childObjs, (child, id) => {
+      _.forOwn(childObjs, (child, id) => {
         if (childObjs.hasOwnProperty(id)) {
           this.addChild(id, child, false);
         }
@@ -325,7 +325,7 @@ export default function () {
    */
   function $forceUpdateChildren() {
     if (_lifecycleState === LS_MOUNTED) {
-      ForOwn(_stateElement.children, child => {
+      _.forOwn(_stateElement.children, child => {
         if (!child.isMounted()) {
           child.$renderComponent();
           child.mount();
@@ -343,7 +343,7 @@ export default function () {
   }
 
   function $renderChildren() {
-    ForOwn(_stateElement.children, child => {
+    _.forOwn(_stateElement.children, child => {
       child.$renderComponent();
     });
   }
@@ -356,19 +356,19 @@ export default function () {
   }
 
   function $mountChildren() {
-    ForOwn(_stateElement.children, child => {
+    _.forOwn(_stateElement.children, child => {
       child.$mountComponent();
     });
   }
 
   function $unmountChildren() {
-    ForOwn(_stateElement.children, child => {
+    _.forOwn(_stateElement.children, child => {
       child.unmount();
     });
   }
 
   function $disposeChildren() {
-    ForOwn(_stateElement.children, child => {
+    _.forOwn(_stateElement.children, child => {
       child.dispose();
     });
   }
