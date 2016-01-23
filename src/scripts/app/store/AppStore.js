@@ -1,62 +1,41 @@
-import Nori from '../../nori/Nori.js';
-import NoriActionConstants from '../../nori/action/ActionConstants.js';
-import AppActionConstants from '../action/ActionConstants.js';
-import StringUtils from '../../nudoru/core/StringUtils.js';
-import NumUtils from '../../nudoru/core/NumberUtils.js';
-import ArrayUtils from '../../nudoru/core/ArrayUtils.js';
-import ObjectMergeDeep from 'deepmerge';
+/*
+ Global Redux store
 
-/**
- * This application store contains "reducer store" functionality based on Redux.
- * The store state may only be changed from actions as applied in reducer functions.
+ Refer for details on middleware and async middleware
+ https://medium.com/@meagle/understanding-87566abcfb7a#.1i0s2ov3h
+
+ Look at
+ https://github.com/acdlite/redux-promise
+ https://github.com/acdlite/redux-rx
  */
-let AppStoreModule = Nori.createStore({
 
-  initialize() {
-    this.addReducer(this.appStateReducerFunction);
-    this.addReducer(this.testReducer1);
-    this.addReducer(this.testReducer2);
+import { createStore } from 'redux';
+import ActionConstants from '../action/ActionConstants.js';
+import NoriActionConstants from '../../nori/action/ActionConstants.js';
 
-    // Will set default state
-    this.apply({});
+// Default state shape
+const DEFAULT_STATE = {
+  currentState: 'chillin',
+  greeting    : 'Hello world!'
+};
 
-    console.log(this.getState());
-  },
-
-  /**
-   * Modify state based on incoming events. Returns a copy of the modified
-   * state and does not modify the state directly.
-   * Can compose state transformations
-   * return _.assign({}, state, otherStateTransformer(state));
-   */
-  appStateReducerFunction: (state = {}, action) => {
-    console.log('app state reducer', state, action);
-    switch (action.type) {
-      case undefined:
-        // Return default state
-        return {
-          currentState: 'chillin',
-          greeting    : 'Hello world!'
-        };
-      case NoriActionConstants.CHANGE_STORE_STATE:
-        return ObjectMergeDeep({}, state, action.payload);
-      default:
-        return state;
-    }
-  },
-
-  testReducer1: (state={}, action) => {
-    console.log('test 1', state, action);
-    state.test1 = 'hello from test 1';
-    return state;
-  },
-
-  testReducer2: (state={}, action) => {
-    console.log('test 2', state, action);
-    state.test2 = 'hello from test 2';
-    return state;
+const rootReducer = (state, action) => {
+  if (typeof state === 'undefined') {
+    return DEFAULT_STATE;
   }
+  switch (action.type) {
+    case ActionConstants.SET_CONFIG:
+      return Object.assign({}, state, {config: action.payload});
+    case NoriActionConstants.CHANGE_STORE_STATE:
+      return Object.assign({}, state, {config: action.payload});
+    default:
+      return state;
+  }
+};
 
-})();
+// Root reducer
+const appStore = createStore(rootReducer);
 
-export default AppStoreModule;
+export default appStore;
+
+

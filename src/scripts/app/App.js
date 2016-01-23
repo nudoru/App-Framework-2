@@ -1,5 +1,4 @@
 import Nori from '../nori/Nori.js';
-import StoreWatcher from '../nori/extra/StoreWatcher.js';
 import AppActions from './action/ActionCreator.js';
 import AppActionConstants from './action/ActionConstants.js';
 import NoriActions from '../nori/action/ActionCreator.js';
@@ -15,8 +14,7 @@ require('!style!css!sass!../../sass/app.sass');
  */
 let App = Nori.createClass({
 
-  // Add ability to watch store mutations and act as a dispatcher
-  mixins: [StoreWatcher()],
+  mixins: [],
 
   /**
    * Initialize
@@ -25,10 +23,6 @@ let App = Nori.createClass({
   initialize() {
     console.log('app initialize');
     AppView.initialize();
-    AppStore.initialize();
-
-    this.watchStore(AppStore);
-
     this.runApplication();
   },
 
