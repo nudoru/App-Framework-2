@@ -1,6 +1,5 @@
 /* @flow weak */
 
-import ReducerStore from './store/ReducerStore.js';
 import ComponentViews from './view/ComponentViews.js';
 import AssignArray from './utils/AssignArray.js';
 import BuildFromMixins from './utils/BuildFromMixins.js';
@@ -37,18 +36,7 @@ export default {
     customizer.mixins.push(this);
     return CreateClass({}, customizer)();
   },
-
-  /**
-   * Creates an application store
-   * @param customizer
-   * @returns {*}
-   */
-  createStore(customizer) {
-    customizer.mixins = customizer.mixins || [];
-    customizer.mixins.push(ReducerStore());
-    return CreateClass({}, customizer);
-  },
-
+  
   /**
    * Creates a application view
    * @param customizer
