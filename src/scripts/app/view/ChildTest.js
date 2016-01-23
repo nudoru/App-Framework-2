@@ -14,7 +14,7 @@ export default Nori.createComponent({
     console.log('render child test');
     let combined     = Object.assign({}, this.props, this.state),
         templateFunc = this.tmpl(`<div>
-            <button class="button-neutral-light">{{id}}, {{label}}</button>
+            <button class="nuButton-neutral-light">{{id}}, {{label}}</button>
             <div class="test__subchild"></div>
           </div>`);
     return templateFunc(combined);
