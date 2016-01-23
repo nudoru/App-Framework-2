@@ -1,5 +1,3 @@
-
-
 /**
  * Base module for components
  * Must be extended with custom modules
@@ -17,7 +15,6 @@
 import Is from '../../nudoru/util/is.js';
 import DOMUtils from '../../nudoru/browser/DOMUtils.js';
 import Template from './Templating.js';
-import ComponentRenderer from './ComponentRenderer.js';
 import EventDelegator from './ComponentEventDelegator.js';
 import { isEqual, forOwn, reduce } from 'lodash';
 
@@ -258,14 +255,44 @@ export default function () {
       this.unmount();
     }
 
-    _domElementCache = ComponentRenderer(this, lastAdjacentNode);
+    _domElementCache = attachElement(lastAdjacentNode);
 
     this.$addEvents();
 
     _lifecycleState = LS_MOUNTED;
   }
 
+  function attachElement(lastAdjacent) {
+    let domEl, currentHTML,
+        mountPoint = document.querySelector(props.target);
 
+    // For a child component that has no mount set, append to the end of the parent
+    if (!mountPoint && _parent) {
+      console.warn(id() + 'has no mount point defined, attaching to parent');
+      mountPoint = document.querySelector('.' + getParent().className());
+    }
+
+    if (!mountPoint) {
+      console.warn('Component', id(), 'invalid mount', props.target);
+      return;
+    }
+
+    domEl = DOMUtils.HTMLStrToNode(_html);
+    DOMUtils.addClass(domEl, 'nori__vc');
+    DOMUtils.addClass(domEl, className());
+
+    if (props.attach === 'replace') {
+      currentHTML = mountPoint.innerHTML;
+      if (_html !== currentHTML) {
+        mountPoint.innerHTML = '';
+        mountPoint.appendChild(domEl);
+      }
+    } else {
+      mountPoint.insertBefore(domEl, lastAdjacent);
+    }
+
+    return domEl;
+  }
 
   function $addEvents() {
     if (this.shouldDelegateEvents() && typeof this.getDOMEvents === 'function') {
