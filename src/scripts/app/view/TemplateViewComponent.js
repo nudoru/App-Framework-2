@@ -38,15 +38,14 @@ export default Nori.createComponent({
   // Return HTML
   // Cache the template function for improved performance
   render() {
-    let combined     = Object.assign({}, this.props, this.state),
-        templateFunc = this.tmpl(`
+    let templateFunc = this.tmpl(`
           <div class="padded">
             <h1>Hola</h1>
             <p>Default subview template.</p>
           </div>
         `);
 
-    return templateFunc(combined);
+    return templateFunc(this.props);
   }
 
   //componentDidMount() {

@@ -18,8 +18,8 @@
 
 // getDOMEvents()
 // componentWillReceiveProps(nextProps)
-// componentWillUpdate(nextProps)
-// componentDidUpdate(lastProps)
+// componentWillUpdate(nextProps, nextState)
+// componentDidUpdate(lastProps, lastState)
 // componentDidMount()
 // componentWillUnmount()
 // componentWillDispose()
@@ -40,11 +40,14 @@ const LS_NO_INIT   = 0,
 export default function () {
 
   let _internalProps,
+      _internalState,
       _children,
       _parent,
       _lastProps,
+      _lastState,
       _events         = EventDelegator(),
       _lifecycleState = LS_NO_INIT,
+      state           = {},
       props           = {},
       _html,
       _domElementCache;
@@ -55,9 +58,10 @@ export default function () {
    */
   function $componentInit() {
     _internalProps = this.getDefaultProps();
+    _internalState = this.getDefaultState();
     _children      = {};
     this.$processChildren();
-    this.$setPublicProps();
+    this.$setPublicPropsAndState();
     _lifecycleState = LS_INITED;
   }
 
@@ -74,7 +78,7 @@ export default function () {
   }
 
   //----------------------------------------------------------------------------
-  //  Props
+  //  Props and state
   //----------------------------------------------------------------------------
 
   /**
@@ -86,6 +90,41 @@ export default function () {
    */
   function getDefaultProps() {
     return {};
+  }
+
+  /**
+   * Get the initial state of the component
+   */
+  function getDefaultState() {
+    return {};
+  }
+
+  //function getProps() {
+  //  return Object.assign({}, _internalProps);
+  //}
+  //
+  //function getState() {
+  //  return Object.assign({}, _internalState);
+  //}
+
+  /**
+   * Sets the next state and trigger a rerender
+   */
+  function setState(nextState) {
+    if (_lifecycleState === LS_RENDERING) {
+      console.warn('Can\'t update state during rendering', this.id());
+      return;
+    }
+
+    if (!Is.object(nextState)) {
+      console.warn('Must call setState with an object');
+      return;
+    }
+
+    // Set default state
+    nextState = nextState || this.getDefaultState();
+
+    this.$updatePropsAndState(null, nextState);
   }
 
   /**
@@ -106,13 +145,15 @@ export default function () {
     if (typeof this.componentWillReceiveProps === 'function' && _lifecycleState >= LS_INITED) {
       this.componentWillReceiveProps(nextProps);
     }
-    this.$updateProps(nextProps, null);
+    this.$updatePropsAndState(nextProps, null);
   }
 
-  function shouldUpdate(nextProps) {
+  function shouldUpdate(nextProps, nextState) {
     nextProps     = nextProps || _internalProps;
-    let isPropsEq = isEqual(nextProps, _internalProps);
-    return !(isPropsEq);
+    nextState     = nextState || _internalState;
+    let isStateEq = isEqual(nextState, _internalState),
+        isPropsEq = isEqual(nextProps, _internalProps);
+    return !(isStateEq) || !(isPropsEq);
   }
 
   function updateProps(nextProps) {
@@ -120,29 +161,37 @@ export default function () {
     _internalProps = Object.assign({}, _internalProps, nextProps);
   }
 
-  function $updateProps(nextProps) {
+  function updateState(nextState) {
+    _lastState     = Object.assign({}, _internalState);
+    _internalState = Object.assign({}, _internalState, nextState);
+  }
+
+  function $updatePropsAndState(nextProps, nextState) {
     nextProps = nextProps || _internalProps;
-    if (!shouldUpdate(nextProps)) {
+    nextState = nextState || _internalState;
+    if (!shouldUpdate(nextProps, nextState)) {
       return;
     }
 
     if (typeof this.componentWillUpdate === 'function' && _lifecycleState > LS_INITED) {
-      this.componentWillUpdate(nextProps);
+      this.componentWillUpdate(nextProps, nextState);
     }
 
     updateProps(nextProps);
+    updateState(nextState);
 
-    this.$setPublicProps();
+    this.$setPublicPropsAndState();
 
-    this.$renderAfterPropsChange();
+    this.$renderAfterPropsOrStateChange();
 
     if (typeof this.componentDidUpdate === 'function' && _lifecycleState > LS_INITED) {
-      this.componentDidUpdate(_lastProps);
+      this.componentDidUpdate(_lastProps, _lastState);
     }
   }
 
-  function $setPublicProps() {
+  function $setPublicPropsAndState() {
     props = Object.assign(props, _internalProps);
+    state = Object.assign(state, _internalState);
   }
 
   //----------------------------------------------------------------------------
@@ -150,14 +199,14 @@ export default function () {
   //----------------------------------------------------------------------------
 
   function forceUpdate() {
-    this.$renderAfterPropsChange(true);
+    this.$renderAfterPropsOrStateChange(true);
     this.$forceUpdateChildren();
   }
 
   /**
-   * Handle rendering after propschange
+   * Handle rendering after props or state change
    */
-  function $renderAfterPropsChange(force = false) {
+  function $renderAfterPropsOrStateChange(force = false) {
     if (_lifecycleState >= LS_INITED) {
       this.$renderComponent();
       if (this.isMounted() || force) {
@@ -182,9 +231,10 @@ export default function () {
    * Should return HTML
    */
   function render() {
-    let templateFunc = Template.getTemplate(this.id());
+    let combined     = Object.assign({}, _internalProps, _internalState),
+        templateFunc = Template.getTemplate(this.id());
 
-    return templateFunc(_internalProps);
+    return templateFunc(combined);
   }
 
   //----------------------------------------------------------------------------
@@ -451,10 +501,13 @@ export default function () {
 
   return {
     // Direct obj access
+    state,
     props,
 
     // public api
     setProps,
+    getDefaultState,
+    setState,
     getDefaultProps,
     isInitialized,
     id,
@@ -479,9 +532,9 @@ export default function () {
     // private api
     $componentInit,
     $processChildren,
-    $setPublicProps,
-    $updateProps,
-    $renderAfterPropsChange,
+    $setPublicPropsAndState,
+    $updatePropsAndState,
+    $renderAfterPropsOrStateChange,
     $renderComponent,
     $mountComponent,
     $addEvents,

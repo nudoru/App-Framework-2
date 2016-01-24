@@ -11,12 +11,11 @@ export default Nori.createComponent({
   },
 
   render() {
-    let combined     = Object.assign({}, this.props, this.state),
-        templateFunc = this.tmpl(`<div>
+    let templateFunc = this.tmpl(`<div>
             <button class="nuButton-neutral-light">{{id}}, {{label}}</button>
             <div class="test__subchild"></div>
           </div>`);
-    return templateFunc(combined);
+    return templateFunc(this.props);
   }
 
 });
