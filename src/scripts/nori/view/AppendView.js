@@ -1,19 +1,19 @@
-/*
- Helper to append a module with a render() function to the DOM
- */
-
-export function append(view, selector) {
-  if (typeof view.render === 'function') {
-    let parent = document.querySelector(selector),
-        el     = view.render();
-    if (parent) {
-      parent.appendChild(el);
-      return el;
-    } else {
-      console.warn('attach view, selector not found: ', selector);
-    }
+export function append(el, selector) {
+  let parent = document.querySelector(selector);
+  if (parent) {
+    parent.appendChild(el);
   } else {
-    console.warn('attach view, view must have render() method');
+    console.warn('Can\'t append element, selector not found: ', selector);
   }
-  return null;
+}
+
+export function replace(el, selector) {
+  let parent = document.querySelector(selector),
+      nextSibling = el.nextSibling;
+  if (parent) {
+    parent.removeChild(el);
+    parent.insertBefore(el, nextSibling);
+  } else {
+    console.warn('Can\'t append element, selector not found: ', selector);
+  }
 }

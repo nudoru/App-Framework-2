@@ -70,7 +70,7 @@ export default Nori.createComponent({
     });
 
     _actionFiveEl.addEventListener('click', function actFour(e) {
-      AppStore.apply(NoriActions.changeStoreState({foo: 'bar'}));
+      AppStore.dispatch(NoriActions.changeStoreState({foo: 'bar'}));
     });
 
     _actionSixEl.addEventListener('click', function actFour(e) {

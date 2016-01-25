@@ -19,10 +19,8 @@ let AppViewModule = Nori.createView({
   mixins: [],
 
   initialize() {
-    append(ViewApp, '#app');
-
+    append(ViewApp.render(), '#app');
     this.initializeRouteViews();
-
     this.mapRoutes();
   },
 

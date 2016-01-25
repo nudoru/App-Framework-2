@@ -163,29 +163,30 @@ export default function () {
 
   //----------------------------------------------------------------------------
   //  Store State Route
+  //  TODO Disabled - need to reevaluate for Redux
   //----------------------------------------------------------------------------
 
-  const initializeStateViews = (store) => {
-    _routeOnURL   = false;
-    _routeOnState = true;
-
-    _observedStore = store;
-    _observedStore.subscribe($onStateChange.bind(this));
-  };
-
-  const $onStateChange= () => {
-    showViewForChangedState.bind(this)();
-  };
-
-  const showViewForChangedState = () => {
-    let state = _observedStore.getState().currentState;
-    if (state) {
-      if (state !== _currentStoreState) {
-        _currentStoreState = state;
-        showViewForCondition(_currentStoreState);
-      }
-    }
-  };
+  //const initializeStateViews = (store) => {
+  //  _routeOnURL   = false;
+  //  _routeOnState = true;
+  //
+  //  _observedStore = store;
+  //  _observedStore.subscribe($onStateChange.bind(this));
+  //};
+  //
+  //const $onStateChange= () => {
+  //  showViewForChangedState.bind(this)();
+  //};
+  //
+  //const showViewForChangedState = () => {
+  //  let state = _observedStore.getState().currentState;
+  //  if (state) {
+  //    if (state !== _currentStoreState) {
+  //      _currentStoreState = state;
+  //      showViewForCondition(_currentStoreState);
+  //    }
+  //  }
+  //};
 
   //----------------------------------------------------------------------------
   //  API
@@ -198,9 +199,9 @@ export default function () {
     route,
     showViewForChangedCondition,
     initializeRouteViews,
-    showViewForChangedURL,
-    initializeStateViews,
-    showViewForChangedState
+    showViewForChangedURL
+    //initializeStateViews,
+    //showViewForChangedState
   };
 
 }

@@ -8,7 +8,6 @@
  *
  * First render: getDefaultProps, getInitialState, componentWillMount, render, componentDidMount
  * Props change: componentWillReceiveProps, shouldComponentUpdate, componentWillUpdate, (render), componentDidUpdate
- * State change: shouldComponentUpdate, componentWillUpdate, (render), componentDidUpdate
  * Unmount: componentWillUnmount
  */
 
@@ -17,7 +16,6 @@
 //----------------------------------------------------------------------------
 
 // getDOMEvents()
-// componentWillReceiveProps(nextProps)
 // componentWillUpdate(nextProps)
 // componentDidUpdate(lastProps)
 // componentDidMount()
@@ -44,10 +42,9 @@ export default function () {
       _parent,
       _lastProps,
       _events         = EventDelegator(),
-      _lifecycleState = LS_NO_INIT,
-      props           = {},
       _html,
-      _domElementCache;
+      _domElementCache,
+      props           = {};
 
   /**
    * Initialization
@@ -58,7 +55,6 @@ export default function () {
     _children      = {};
     this.$processChildren();
     this.$setPublicProps();
-    _lifecycleState = LS_INITED;
   }
 
   function $processChildren() {
@@ -97,15 +93,6 @@ export default function () {
       return;
     }
 
-    if (_lifecycleState === LS_RENDERING) {
-      console.warn('Can\'t update props during rendering', this.id());
-      return;
-    }
-
-    // ensure this runs only after initial init
-    if (typeof this.componentWillReceiveProps === 'function' && _lifecycleState >= LS_INITED) {
-      this.componentWillReceiveProps(nextProps);
-    }
     this.$updateProps(nextProps, null);
   }
 
@@ -126,7 +113,7 @@ export default function () {
       return;
     }
 
-    if (typeof this.componentWillUpdate === 'function' && _lifecycleState > LS_INITED) {
+    if (typeof this.componentWillUpdate === 'function') {
       this.componentWillUpdate(nextProps);
     }
 
@@ -136,7 +123,7 @@ export default function () {
 
     this.$renderAfterPropsChange();
 
-    if (typeof this.componentDidUpdate === 'function' && _lifecycleState > LS_INITED) {
+    if (typeof this.componentDidUpdate === 'function') {
       this.componentDidUpdate(_lastProps);
     }
   }
@@ -158,12 +145,10 @@ export default function () {
    * Handle rendering after propschange
    */
   function $renderAfterPropsChange(force = false) {
-    if (_lifecycleState >= LS_INITED) {
       this.$renderComponent();
       if (this.isMounted() || force) {
         this.$mountComponent();
       }
-    }
   }
 
   /**
@@ -172,7 +157,6 @@ export default function () {
    * @returns {*}
    */
   function $renderComponent() {
-    _lifecycleState = LS_RENDERING;
     this.$renderChildren();
     _html = this.render();
   }
@@ -220,8 +204,6 @@ export default function () {
     _domElementCache = attachElement(lastAdjacentNode);
 
     this.$addEvents();
-
-    _lifecycleState = LS_MOUNTED;
   }
 
   function attachElement(lastAdjacent) {
@@ -286,7 +268,6 @@ export default function () {
     }
 
     _domElementCache = null;
-    _lifecycleState  = LS_UNMOUNTED;
   }
 
   function $removeEvents() {
@@ -302,7 +283,6 @@ export default function () {
 
     this.$disposeChildren();
     this.unmount();
-    _lifecycleState = LS_INITED;
   }
 
 
@@ -348,14 +328,12 @@ export default function () {
    * IF the current view is mounted and the children aren't
    */
   function $forceUpdateChildren() {
-    if (_lifecycleState === LS_MOUNTED) {
       forOwn(_children, child => {
         if (!child.isMounted()) {
           child.$renderComponent();
           child.mount();
         }
       });
-    }
   }
 
   function child(id) {
@@ -409,10 +387,6 @@ export default function () {
   //  Accessors
   //----------------------------------------------------------------------------
 
-  function isInitialized() {
-    return _lifecycleState > LS_NO_INIT;
-  }
-
   function isMounted() {
     return !!this.dom();
   }
@@ -456,7 +430,6 @@ export default function () {
     // public api
     setProps,
     getDefaultProps,
-    isInitialized,
     id,
     dom,
     html,
