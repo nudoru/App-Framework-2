@@ -25,7 +25,7 @@
 import Is from '../../nudoru/util/is.js';
 import DOMUtils from '../../nudoru/browser/DOMUtils.js';
 import Template from './Templating.js';
-import EventDelegator from './ComponentEventDelegator.js';
+import EventDelegator from './Delegator.js';
 import { isEqual, forOwn, reduce } from 'lodash';
 
 const LS_NO_INIT   = 0,
