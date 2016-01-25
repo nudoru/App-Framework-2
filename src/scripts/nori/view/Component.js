@@ -24,8 +24,7 @@
 
 import Is from '../../nudoru/util/is.js';
 import DOMUtils from '../../nudoru/browser/DOMUtils.js';
-import Template from './Templating.js';
-import EventDelegator from './Delegator.js';
+import Delegator from './Delegator.js';
 import { isEqual, forOwn, reduce } from 'lodash';
 
 const LS_NO_INIT   = 0,
@@ -38,10 +37,10 @@ const LS_NO_INIT   = 0,
 export default function () {
 
   let _internalProps,
-      _children,
+      _children = {},
       _parent,
       _lastProps,
-      _events         = EventDelegator(),
+      _events         = Delegator(),
       _html,
       _domElementCache,
       props           = {};
@@ -51,10 +50,8 @@ export default function () {
    * @param initProps
    */
   function $componentInit() {
-    _internalProps = this.getDefaultProps();
-    _children      = {};
+    this.setProps(this.getDefaultProps());
     this.$processChildren();
-    this.$setPublicProps();
   }
 
   function $processChildren() {
@@ -166,9 +163,10 @@ export default function () {
    * Should return HTML
    */
   function render() {
-    let templateFunc = Template.getTemplate(this.id());
-
-    return templateFunc(_internalProps);
+    //let templateFunc = Template.getTemplate(this.id());
+    //return templateFunc(_internalProps);
+    console.warn('Component ' + this.id() + ' must override render()');
+    return '';
   }
 
   //----------------------------------------------------------------------------
@@ -410,15 +408,6 @@ export default function () {
     return CLASS_PREFIX + _internalProps.index;
   }
 
-
-  //----------------------------------------------------------------------------
-  //  Utility
-  //----------------------------------------------------------------------------
-
-  function tmpl(html) {
-    return Template.getTemplateFromHTML(html);
-  }
-
   //----------------------------------------------------------------------------
   //  API
   //----------------------------------------------------------------------------
@@ -434,7 +423,6 @@ export default function () {
     dom,
     html,
     isMounted,
-    tmpl,
     forceUpdate,
     render,
     mount,

@@ -1,4 +1,5 @@
 import Nori from '../../nori/Nori.js';
+import Template from '../../nori/view/Templating.js';
 
 export default Nori.createComponent({
 
@@ -11,7 +12,7 @@ export default Nori.createComponent({
   },
 
   render() {
-    let templateFunc = this.tmpl(`<div>
+    let templateFunc = Template.getTemplateFromHTML(`<div>
             <button class="nuButton-neutral-light">{{id}}, {{label}}</button>
             <div class="test__subchild"></div>
           </div>`);

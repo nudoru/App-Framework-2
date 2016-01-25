@@ -1,5 +1,3 @@
-
-
 /**
  * Mixin view that allows for component views
  */
@@ -49,11 +47,7 @@ export default function () {
           index         : _viewIDIndex++,
           attach        : 'append',
           // In vc RxEventDelegator, will pass values from form elements to subscribers
-          autoFormEvents: true,
-          // Defaults for DOM el components
-          elInner         : '',
-          elID          : '',
-          elClass       : ''
+          autoFormEvents: true
         };
         return Object.assign({}, pDefaultProps.call(template), specs, props);
       };

@@ -1,5 +1,3 @@
-
-
 /*
  Facade for HTML templating
  Matt Perkins
@@ -18,7 +16,7 @@ let TemplatingModule = function () {
       _templateCache     = Object.create(null);
 
   const addTemplate = (id, html) => {
-    if(!id || !html) {
+    if (!id || !html) {
       console.warn('Templating, must provide ID and source HTML.');
       return;
     }
@@ -39,8 +37,6 @@ let TemplatingModule = function () {
 
     if (src) {
       srchtml = src.innerHTML;
-    } else if (IsDOMElement(id)) {
-      srchtml = '<' + id + ' id="{{elID}}" class="{{elClass}}">{{elInner}}</' + id + '>';
     } else {
       console.warn('Templating, template not found: "' + id + '"');
       srchtml = '<div>Template not found: ' + id + '</div>';

@@ -33,10 +33,6 @@ let AppViewModule = Nori.createView({
           target: '#contents',
           attach: 'replace'
         }),
-        vcStyles     = Nori.createComponent({})('styles', {
-          target: '#contents',
-          attach: 'replace'
-        }),
         vcComponents = ComponentTesting('components', {
             target: '#contents',
             attach: 'replace'
@@ -48,19 +44,18 @@ let AppViewModule = Nori.createView({
           ChildTest('append2', {
             target: '#debug-child',
             label : 'aaAppened2'
-          }),
-          Nori.createComponent()('div', {
-            target : '#debug-child',
-            elInner: 'testing dom el temp',
-            elID   : 'my-el',
-            elClass: 'h3-alternate'
           }, ChildTest('append5', {
             label: 'On dom el'
-          })));
+          }, ChildTest('append6', {
+            label: 'On dom el'
+          }), ChildTest('append7', {
+            label: 'On dom el'
+          })))
+        );
 
     // condition, component ID
     this.route('/', vcDefault);
-    this.route('/styles', vcStyles);
+    //this.route('/styles', vcStyles);
     this.route('/controls', vcControls);
     this.route('/comps', vcComponents);
   }
