@@ -1,12 +1,16 @@
 import Nori from '../../nori/Nori.js';
 import Template from '../../nori/view/Templating.js';
+import Delegator from '../../nori/view/Delegator.js';
+
+let eventDelegator = Delegator(),
+    events;
 
 export default Nori.createComponent({
 
   counter: 0,
 
-  getDOMEvents() {
-    return {
+  init() {
+    events = {
       'click button.nuButton-neutral-light': () => this.setProps({label: 'Clicked ' + (++this.counter) + ' times'})
     };
   },
@@ -17,6 +21,14 @@ export default Nori.createComponent({
             <div class="test__subchild"></div>
           </div>`);
     return templateFunc(this.props);
+  },
+
+  componentDidMount(){
+    eventDelegator.delegateEvents(this.dom(), events, false);
+  },
+
+  componentWillUnmount(){
+    eventDelegator.undelegateEvents(events);
   }
 
 });

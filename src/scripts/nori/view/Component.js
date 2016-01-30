@@ -4,7 +4,7 @@
  *
  * Functions beginning with $ should be treated as private
  *
- * Lifecycle should match React:
+ * Reference React's lifecycle:
  *
  * First render: getDefaultProps, getInitialState, componentWillMount, render, componentDidMount
  * Props change: componentWillReceiveProps, shouldComponentUpdate, componentWillUpdate, (render), componentDidUpdate
@@ -15,7 +15,6 @@
 //  Lifecycle stubs
 //----------------------------------------------------------------------------
 
-// getDOMEvents()
 // componentWillUpdate(nextProps)
 // componentDidUpdate(lastProps)
 // componentDidMount()
@@ -24,15 +23,9 @@
 
 import Is from '../../nudoru/util/is.js';
 import DOMUtils from '../../nudoru/browser/DOMUtils.js';
-import Delegator from './Delegator.js';
 import { isEqual, forOwn, reduce } from 'lodash';
 
-const LS_NO_INIT   = 0,
-      LS_INITED    = 1,
-      LS_RENDERING = 2,
-      LS_MOUNTED   = 3,
-      LS_UNMOUNTED = 4,
-      CLASS_PREFIX = 'js__vc';
+const CLASS_PREFIX = 'js__vc';
 
 export default function () {
 
@@ -40,10 +33,9 @@ export default function () {
       _children = {},
       _parent,
       _lastProps,
-      _events         = Delegator(),
       _html,
       _domElementCache,
-      props           = {};
+      props     = {};
 
   /**
    * Initialization
@@ -99,11 +91,6 @@ export default function () {
     return !(isPropsEq);
   }
 
-  function updateProps(nextProps) {
-    _lastProps     = Object.assign({}, _internalProps);
-    _internalProps = Object.assign({}, _internalProps, nextProps);
-  }
-
   function $updateProps(nextProps) {
     nextProps = nextProps || _internalProps;
     if (!shouldUpdate(nextProps)) {
@@ -114,7 +101,8 @@ export default function () {
       this.componentWillUpdate(nextProps);
     }
 
-    updateProps(nextProps);
+    _lastProps     = Object.assign({}, _internalProps);
+    _internalProps = Object.assign({}, _internalProps, nextProps);
 
     this.$setPublicProps();
 
@@ -142,10 +130,10 @@ export default function () {
    * Handle rendering after propschange
    */
   function $renderAfterPropsChange(force = false) {
-      this.$renderComponent();
-      if (this.isMounted() || force) {
-        this.$mountComponent();
-      }
+    this.$renderComponent();
+    if (this.isMounted() || force) {
+      this.$mountComponent();
+    }
   }
 
   /**
@@ -200,8 +188,6 @@ export default function () {
     }
 
     _domElementCache = attachElement(lastAdjacentNode);
-
-    this.$addEvents();
   }
 
   function attachElement(lastAdjacent) {
@@ -236,26 +222,12 @@ export default function () {
     return domEl;
   }
 
-  function $addEvents() {
-    if (this.shouldDelegateEvents() && typeof this.getDOMEvents === 'function') {
-      _events.delegateEvents(this.dom(), this.getDOMEvents(), _internalProps.autoFormEvents);
-    }
-  }
-
-  /**
-   * Override to delegate events or not based on some state trigger
-   */
-  function shouldDelegateEvents() {
-    return true;
-  }
-
   function unmount() {
     if (typeof this.componentWillUnmount === 'function') {
       this.componentWillUnmount();
     }
 
     this.$unmountChildren();
-    this.$removeEvents();
 
     if (_internalProps.attach === 'replace') {
       DOMUtils.removeAllElements(document.querySelector(_internalProps.target));
@@ -268,12 +240,6 @@ export default function () {
     _domElementCache = null;
   }
 
-  function $removeEvents() {
-    if (typeof this.getDOMEvents === 'function') {
-      _events.undelegateEvents(this.getDOMEvents());
-    }
-  }
-
   function dispose() {
     if (typeof this.componentWillDispose === 'function') {
       this.componentWillDispose();
@@ -282,7 +248,6 @@ export default function () {
     this.$disposeChildren();
     this.unmount();
   }
-
 
   //----------------------------------------------------------------------------
   //  Children
@@ -326,12 +291,12 @@ export default function () {
    * IF the current view is mounted and the children aren't
    */
   function $forceUpdateChildren() {
-      forOwn(_children, child => {
-        if (!child.isMounted()) {
-          child.$renderComponent();
-          child.mount();
-        }
-      });
+    forOwn(_children, child => {
+      if (!child.isMounted()) {
+        child.$renderComponent();
+        child.mount();
+      }
+    });
   }
 
   function child(id) {
@@ -427,7 +392,6 @@ export default function () {
     render,
     mount,
     className,
-    shouldDelegateEvents,
     unmount,
     dispose,
     addChild,
@@ -445,8 +409,6 @@ export default function () {
     $renderAfterPropsChange,
     $renderComponent,
     $mountComponent,
-    $addEvents,
-    $removeEvents,
     $forceUpdateChildren,
     $renderChildren,
     $mountChildren,

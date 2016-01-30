@@ -37,9 +37,11 @@ export default Nori.createComponent({
   // Return HTML
   // Cache the template function for improved performance
   render() {
+    // Default to grab template ID and return
     //let templateFunc = Template.getTemplate(this.id());
     //return templateFunc(this.props);
 
+    // Custom
     let templateFunc = Template.getTemplateFromHTML(`
           <div class="padded">
             <h1>Hola</h1>

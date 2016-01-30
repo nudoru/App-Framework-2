@@ -45,9 +45,7 @@ export default function () {
         let specs = {
           id            : id || 'vc' + _viewIDIndex,
           index         : _viewIDIndex++,
-          attach        : 'append',
-          // In vc RxEventDelegator, will pass values from form elements to subscribers
-          autoFormEvents: true
+          attach        : 'append'
         };
         return Object.assign({}, pDefaultProps.call(template), specs, props);
       };
