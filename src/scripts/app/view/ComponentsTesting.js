@@ -19,7 +19,7 @@ let _actionOneEl,
     _actionSixEl,
     _this;
 
-export default Nori.createComponent({
+export default Nori.createComponent('ComponentsTest', {
   /**
    * Mixins are other modules/objects that multiple components share, provides
    * common functionality between then.
@@ -38,7 +38,7 @@ export default Nori.createComponent({
   },
 
   render() {
-    let templateFunc = Template.getTemplate(this.id());
+    let templateFunc = Template.getTemplate(this.props.nodeName);
     return templateFunc(this.props);
   },
 
@@ -46,18 +46,19 @@ export default Nori.createComponent({
    * Component HTML was attached to the DOM
    */
   componentDidMount() {
-    let dyn = {};
-
-    [1, 2, 3].forEach(id => {
-      id      = 'dynamic' + String(id);
-      dyn[id] = ChildTest('dBtn' + id, {
-        target: '#debug-child',
-        attach: 'append',
-        label : 'Dynamic! ' + id
-      });
-    });
-
-    this.addChildren(dyn);
+    // Not working with events
+    //let dyn = {};
+    //
+    //[1, 2, 3].forEach(id => {
+    //  id      = 'dynamic' + String(id);
+    //  dyn[id] = ChildTest('dBtn' + id, {
+    //    target: '#debug-child',
+    //    attach: 'append',
+    //    label : 'Dynamic! ' + id
+    //  });
+    //});
+    //
+    //this.addChildren(dyn);
 
     //this._testNudoruComponents();
   },

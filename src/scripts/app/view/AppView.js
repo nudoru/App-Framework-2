@@ -2,8 +2,8 @@ import Nori from '../../nori/Nori.js';
 import TemplateViewFactory from './TemplateViewComponent.js';
 import ComponentTesting from './ComponentsTesting.js';
 import ControlsTesting from './ControlsTesting.js';
-import DOMUtils from '../../nudoru/browser/DOMUtils.js';
 import ChildTest from './ChildTest.js';
+import DOMUtils from '../../nudoru/browser/DOMUtils.js';
 import {append} from '../../nori/view/AppendView';
 
 import ViewApp from './view.App';
@@ -25,33 +25,39 @@ let AppViewModule = Nori.createView({
   },
 
   mapRoutes() {
-    let vcDefault    = TemplateViewFactory('default', {
+    //let vcDefault    = TemplateViewFactory('default', {
+    //      target: '#contents',
+    //      attach: 'replace'
+    //    }),
+    //    vcControls   = ControlsTesting('controls', {
+    //      target: '#contents',
+    //      attach: 'replace'
+    //    }),
+    //    vcComponents = ComponentTesting('components', {
+    //      target: '#contents',
+    //      attach: 'replace'
+    //    }, [
+    //      ChildTest('append1', {target: '#debug-child', label: 'aaAppened1'}),
+    //      ChildTest('append2', {target: '#debug-child', label: 'aaAppened2'}),
+    //      ChildTest('append3', {target: '#debug-child', label: 'aaAppened3'})
+    //    ]);
+
+    let vcDefault    = Nori.c('TemplateViewComponent', {
           target: '#contents',
           attach: 'replace'
         }),
-        vcControls   = ControlsTesting('controls', {
+        vcControls   = Nori.c('ControlsTest', {
           target: '#contents',
           attach: 'replace'
         }),
-        vcComponents = ComponentTesting('components', {
-            target: '#contents',
-            attach: 'replace'
-          },
-          ChildTest('append1', {
-            target: '#debug-child',
-            label : 'aaAppened1'
-          }),
-          ChildTest('append2', {
-            target: '#debug-child',
-            label : 'aaAppened2'
-          }, ChildTest('append5', {
-            label: 'On dom el'
-          }, ChildTest('append6', {
-            label: 'On dom el'
-          }), ChildTest('append7', {
-            label: 'On dom el'
-          })))
-        );
+        vcComponents = Nori.c('ComponentsTest', {
+          target: '#contents',
+          attach: 'replace'
+        }, [
+          Nori.c('ChildTest', {target: '#debug-child', label: 'aaAppened1'}),
+          Nori.c('ChildTest', {target: '#debug-child', label: 'aaAppened2'}),
+          Nori.c('ChildTest', {target: '#debug-child', label: 'aaAppened3'})
+        ]);
 
     // condition, component ID
     this.route('/', vcDefault);

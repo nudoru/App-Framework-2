@@ -130,8 +130,8 @@ export default function () {
    * Handle rendering after propschange
    */
   function $renderAfterPropsChange(force = false) {
-    this.$renderComponent();
     if (this.isMounted() || force) {
+      this.$renderComponent();
       this.$mountComponent();
     }
   }
@@ -151,10 +151,8 @@ export default function () {
    * Should return HTML
    */
   function render() {
-    //let templateFunc = Template.getTemplate(this.id());
-    //return templateFunc(_internalProps);
     console.warn('Component ' + this.id() + ' must override render()');
-    return '';
+    return '<div></div>';
   }
 
   //----------------------------------------------------------------------------

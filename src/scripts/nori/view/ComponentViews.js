@@ -6,59 +6,109 @@ import ViewComponentFactory from './Component.js';
 import BuildFromMixins from '../utils/BuildFromMixins.js';
 import Router from './URLRouter.js';
 import DeepCopy from '../../nudoru/util/DeepCopy.js';
-//import ComponentMount from '../experimental/ComponentMount.js';
 
 export default function () {
 
-  let _routeViewMap = {},
-      _viewIDIndex  = 0,
-      _routeOnURL   = false,
-      _routeOnState = false,
+  let _routeViewMap      = {},
+      _viewIDIndex       = 0,
+      _routeOnURL        = false,
+      _routeOnState      = false,
       _currentViewComponent,
+      _componentRegistry = {},
       _observedStore,
       _currentStoreState;
 
   /**
    * Factory to create component view modules by concating multiple source objects
-   * @param customizer Custom module source
-   * @returns {*}
    */
-  const createComponent = (source = {}) => {
-    return (id, props, ...children) => {
-      let customizer,
-          template,
-          final,
-          pDefaultProps;
+  const createComponent = (name, source) => {
 
-      customizer = DeepCopy(source);
 
-      customizer.mixins = customizer.mixins || [];
-      customizer.mixins.unshift(ViewComponentFactory());
+    if (_componentRegistry[name]) {
+      console.warn('Component already defined with type', name);
+      return;
+    }
 
-      template            = BuildFromMixins(customizer);
-      template.__children = children;
+    _componentRegistry[name] = source;
+    //console.log('> component', name, source);
 
-      pDefaultProps = template.getDefaultProps;
+    //return (id, props, children) => {
+    //  let customizer,
+    //      template,
+    //      final,
+    //      pDefaultProps;
+    //
+    //  customizer = DeepCopy(source);
+    //
+    //  customizer.mixins = customizer.mixins || [];
+    //  customizer.mixins.unshift(ViewComponentFactory());
+    //
+    //  template            = BuildFromMixins(customizer);
+    //  template.__children = children;
+    //
+    //  pDefaultProps = template.getDefaultProps;
+    //
+    //  template.getDefaultProps = () => {
+    //    let specs = {
+    //      id            : id || 'vc' + _viewIDIndex,
+    //      index         : _viewIDIndex++,
+    //      attach        : 'append'
+    //    };
+    //    return Object.assign({}, pDefaultProps.call(template), specs, props);
+    //  };
+    //
+    //  final = Object.assign({}, template);
+    //  final.$componentInit.call(final);
+    //
+    //  if (typeof final.init === 'function') {
+    //    final.init.call(final);
+    //  }
+    //
+    //  return final;
+    //};
+  };
 
-      template.getDefaultProps = () => {
-        // TODO test props for reserved names?
-        let specs = {
-          id            : id || 'vc' + _viewIDIndex,
-          index         : _viewIDIndex++,
-          attach        : 'append'
-        };
-        return Object.assign({}, pDefaultProps.call(template), specs, props);
+  const c = (name, props, children) => {
+    if (!_componentRegistry.hasOwnProperty(name)) {
+      console.warn('Component not found', name);
+      return;
+    }
+
+    let source = _componentRegistry[name];
+
+    let customizer,
+        template,
+        final,
+        pDefaultProps;
+
+    customizer = DeepCopy(source);
+
+    customizer.mixins = customizer.mixins || [];
+    customizer.mixins.unshift(ViewComponentFactory());
+
+    template            = BuildFromMixins(customizer);
+    template.__children = children;
+
+    pDefaultProps = template.getDefaultProps;
+
+    template.getDefaultProps = () => {
+      let specs = {
+        nodeName: name,
+        id    : name + _viewIDIndex || 'vc' + _viewIDIndex,
+        index : _viewIDIndex++,
+        attach: 'append'
       };
-
-      final = Object.assign({}, template);
-      final.$componentInit.call(final);
-
-      if (typeof final.init === 'function') {
-        final.init.call(final);
-      }
-
-      return final;
+      return Object.assign({}, pDefaultProps.call(template), specs, props);
     };
+
+    final = Object.assign({}, template);
+    final.$componentInit.call(final);
+
+    if (typeof final.init === 'function') {
+      final.init.call(final);
+    }
+
+    return final;
   };
 
   //----------------------------------------------------------------------------
@@ -186,6 +236,7 @@ export default function () {
 
   return {
     createComponent,
+    c,
     showView,
     showViewForCondition,
     route,

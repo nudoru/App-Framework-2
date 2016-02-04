@@ -1,5 +1,3 @@
-
-
 import ComponentViews from './view/ComponentViews.js';
 import AssignArray from './utils/AssignArray.js';
 import BuildFromMixins from './utils/BuildFromMixins.js';
@@ -48,10 +46,18 @@ export default {
     return CreateClass({}, customizer);
   },
 
-  createComponent(source) {
+  createComponent(name, source) {
     if(!this._componentViews) {
       this._componentViews = ComponentViews();
     }
-    return this._componentViews.createComponent(source);
+    return this._componentViews.createComponent(name, source);
+  },
+
+  c(name, props, children) {
+    if(!this._componentViews) {
+      console.warn('Must create components before using them');
+      return;
+    }
+    return this._componentViews.c(name, props, children);
   }
 };

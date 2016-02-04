@@ -24,7 +24,7 @@ import BrowserInfo from '../../nudoru/browser/BrowserInfo.js';
 import MouseToTouchEventStr from '../../nudoru/browser/MouseToTouchEvents.js';
 import Is from '../../nudoru/util/is.js';
 
-export default function () {
+function create() {
 
   let _eventSubscribers;
 
@@ -165,3 +165,7 @@ export default function () {
   };
 
 }
+
+let Delegator = create();
+
+export default Delegator;
