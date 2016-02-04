@@ -6,7 +6,7 @@ import Template from '../../nori/view/Templating.js';
  */
 
 
-export default Nori.createComponent('ControlsTest', {
+export default Nori.defineComponent('ControlsTest', {
 
   componentDidMount() {
   },

@@ -46,11 +46,11 @@ export default {
     return CreateClass({}, customizer);
   },
 
-  createComponent(name, source) {
+  defineComponent(name, source) {
     if(!this._componentViews) {
       this._componentViews = ComponentViews();
     }
-    return this._componentViews.createComponent(name, source);
+    return this._componentViews.defineComponent(name, source);
   },
 
   c(name, props, children) {

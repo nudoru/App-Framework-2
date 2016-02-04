@@ -2,7 +2,7 @@ import Nori from '../../nori/Nori.js';
 import Template from '../../nori/view/Templating.js';
 import Delegator from '../../nori/view/Delegator.js';
 
-export default Nori.createComponent('ChildTest', {
+export default Nori.defineComponent('ChildTest', {
 
   counter: 0,
   events: {},

@@ -19,7 +19,7 @@ let _actionOneEl,
     _actionSixEl,
     _this;
 
-export default Nori.createComponent('ComponentsTest', {
+export default Nori.defineComponent('ComponentsTest', {
   /**
    * Mixins are other modules/objects that multiple components share, provides
    * common functionality between then.

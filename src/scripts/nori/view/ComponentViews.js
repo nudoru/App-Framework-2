@@ -21,7 +21,7 @@ export default function () {
   /**
    * Factory to create component view modules by concating multiple source objects
    */
-  const createComponent = (name, source) => {
+  const defineComponent = (name, source) => {
 
 
     if (_componentRegistry[name]) {
@@ -235,7 +235,7 @@ export default function () {
   //----------------------------------------------------------------------------
 
   return {
-    createComponent,
+    defineComponent,
     c,
     showView,
     showViewForCondition,
