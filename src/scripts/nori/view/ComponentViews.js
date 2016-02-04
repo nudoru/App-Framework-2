@@ -6,6 +6,8 @@ import ViewComponentFactory from './Component.js';
 import BuildFromMixins from '../utils/BuildFromMixins.js';
 import Router from './URLRouter.js';
 import DeepCopy from '../../nudoru/util/DeepCopy.js';
+import IsDOMElement from '../../nudoru/browser/IsDOMElement.js';
+import {render} from './AppendView';
 
 export default function () {
 
@@ -14,63 +16,31 @@ export default function () {
       _routeOnURL        = false,
       _routeOnState      = false,
       _currentViewComponent,
-      _componentRegistry = {},
-      _observedStore,
-      _currentStoreState;
+      _componentRegistry = {};
+  //_observedStore,
+  //_currentStoreState;
 
   /**
    * Factory to create component view modules by concating multiple source objects
    */
   const defineComponent = (name, source) => {
-
-
     if (_componentRegistry[name]) {
       console.warn('Component already defined with type', name);
       return;
     }
 
     _componentRegistry[name] = source;
-    //console.log('> component', name, source);
-
-    //return (id, props, children) => {
-    //  let customizer,
-    //      template,
-    //      final,
-    //      pDefaultProps;
-    //
-    //  customizer = DeepCopy(source);
-    //
-    //  customizer.mixins = customizer.mixins || [];
-    //  customizer.mixins.unshift(ViewComponentFactory());
-    //
-    //  template            = BuildFromMixins(customizer);
-    //  template.__children = children;
-    //
-    //  pDefaultProps = template.getDefaultProps;
-    //
-    //  template.getDefaultProps = () => {
-    //    let specs = {
-    //      id            : id || 'vc' + _viewIDIndex,
-    //      index         : _viewIDIndex++,
-    //      attach        : 'append'
-    //    };
-    //    return Object.assign({}, pDefaultProps.call(template), specs, props);
-    //  };
-    //
-    //  final = Object.assign({}, template);
-    //  final.$componentInit.call(final);
-    //
-    //  if (typeof final.init === 'function') {
-    //    final.init.call(final);
-    //  }
-    //
-    //  return final;
-    //};
   };
 
+  /**
+   * Creates an instance of the component
+   */
   const c = (name, props, children) => {
     if (!_componentRegistry.hasOwnProperty(name)) {
       console.warn('Component not found', name);
+      //if (IsDOMElement(name)) {
+      //  console.warn('isDOM!', name);
+      //}
       return;
     }
 
@@ -94,9 +64,9 @@ export default function () {
     template.getDefaultProps = () => {
       let specs = {
         nodeName: name,
-        id    : name + _viewIDIndex || 'vc' + _viewIDIndex,
-        index : _viewIDIndex++,
-        attach: 'append'
+        id      : name + _viewIDIndex || 'vc' + _viewIDIndex,
+        index   : _viewIDIndex++,
+        attach  : 'append'
       };
       return Object.assign({}, pDefaultProps.call(template), specs, props);
     };
@@ -118,8 +88,6 @@ export default function () {
 
   /**
    * Map a route to a module view controller
-   * @param component
-   * @param component
    */
   const route = (condition, component) => {
     _routeViewMap[condition] = component;
@@ -127,7 +95,6 @@ export default function () {
 
   /**
    * Show a view (in response to a route change)
-   * @param condition
    */
   const showViewForCondition = (condition) => {
     let view = _routeViewMap[condition];
@@ -148,19 +115,15 @@ export default function () {
       return;
     }
 
-    $removeCurrentView();
-    _currentViewComponent = viewComponent;
-    viewComponent.forceUpdate();
-  };
-
-  /**
-   * Remove the currently displayed view
-   */
-  const $removeCurrentView = () => {
+    // Remove
     if (_currentViewComponent) {
       _currentViewComponent.dispose();
     }
     _currentViewComponent = null;
+
+    _currentViewComponent = viewComponent;
+    //viewComponent.forceUpdate();
+    render(viewComponent);
   };
 
   //----------------------------------------------------------------------------

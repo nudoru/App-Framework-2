@@ -1,8 +1,8 @@
-import Nori from '../../nori/Nori.js';
+import {defineComponent} from '../../nori/Nori.js';
 import Template from '../../nori/view/Templating.js';
 import Delegator from '../../nori/view/Delegator.js';
 
-export default Nori.defineComponent('ChildTest', {
+export default defineComponent('ChildTest', {
 
   counter: 0,
   events: {},

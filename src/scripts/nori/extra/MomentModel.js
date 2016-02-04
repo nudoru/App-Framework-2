@@ -1,8 +1,8 @@
 import moment from '../../vendor/moment.min.js';
-import Nori from '../Nori.js';
+import {createClass} from '../Nori.js';
 import ObservableSubject from './ObservableSubject';
 
-export default Nori.createClass({
+export default createClass({
 
   mixins: [ObservableSubject()],
 

@@ -1,4 +1,4 @@
-import Nori from '../../nori/Nori.js';
+import {defineComponent} from '../../nori/Nori.js';
 import NoriActions from '../../nori/action/ActionCreator';
 import Template from '../../nori/view/Templating.js';
 import AppView from './AppView';
@@ -19,7 +19,7 @@ let _actionOneEl,
     _actionSixEl,
     _this;
 
-export default Nori.defineComponent('ComponentsTest', {
+export default defineComponent('ComponentsTest', {
   /**
    * Mixins are other modules/objects that multiple components share, provides
    * common functionality between then.

@@ -1,10 +1,10 @@
-import Nori from '../../nori/Nori.js';
+import {c, createView} from '../../nori/Nori.js';
 import TemplateViewFactory from './TemplateViewComponent.js';
 import ComponentTesting from './ComponentsTesting.js';
 import ControlsTesting from './ControlsTesting.js';
 import ChildTest from './ChildTest.js';
 import DOMUtils from '../../nudoru/browser/DOMUtils.js';
-import {append} from '../../nori/view/AppendView';
+import {append, render} from '../../nori/view/AppendView';
 
 import ViewApp from './view.App';
 
@@ -14,7 +14,7 @@ const { div, span, h1 } = require('hyperscript-helpers')(h);
 /**
  * View for an application.
  */
-let AppViewModule = Nori.createView({
+let AppViewModule = createView({
 
   mixins: [],
 
@@ -42,21 +42,21 @@ let AppViewModule = Nori.createView({
     //      ChildTest('append3', {target: '#debug-child', label: 'aaAppened3'})
     //    ]);
 
-    let vcDefault    = Nori.c('TemplateViewComponent', {
+    let vcDefault    = c('TemplateViewComponent', {
           target: '#contents',
           attach: 'replace'
         }),
-        vcControls   = Nori.c('ControlsTest', {
+        vcControls   = c('ControlsTest', {
           target: '#contents',
           attach: 'replace'
         }),
-        vcComponents = Nori.c('ComponentsTest', {
+        vcComponents = c('ComponentsTest', {
           target: '#contents',
           attach: 'replace'
         }, [
-          Nori.c('ChildTest', {target: '#debug-child', label: 'aaAppened1'}),
-          Nori.c('ChildTest', {target: '#debug-child', label: 'aaAppened2'}),
-          Nori.c('ChildTest', {target: '#debug-child', label: 'aaAppened3'})
+          c('ChildTest', {target: '#debug-child', label: 'aaAppened1'}),
+          c('ChildTest', {target: '#debug-child', label: 'aaAppened2'}),
+          c('ChildTest', {target: '#debug-child', label: 'aaAppened3'})
         ]);
 
     // condition, component ID

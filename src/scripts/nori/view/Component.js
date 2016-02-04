@@ -29,13 +29,14 @@ const CLASS_PREFIX = 'js__vc';
 
 export default function () {
 
-  let _internalProps,
-      _children = {},
+  let _componentType='NORI_COMPONENT',
+      _internalProps,
       _parent,
       _lastProps,
       _html,
       _domElementCache,
-      props     = {};
+      props     = {},
+      _children = {};
 
   /**
    * Initialization
@@ -46,14 +47,20 @@ export default function () {
     this.$processChildren();
   }
 
+  /**
+   * Iterates over the __children passed on creation to initialize other Nori
+   * components
+   */
   function $processChildren() {
     if (this.__children) {
       this.__children.forEach(child => {
-        let childObj = child;
-        if (typeof child === 'function') {
-          childObj = child();
+        if(child && typeof child.noriType === 'function') {
+          let childObj = child;
+          if (typeof child === 'function') {
+            childObj = child();
+          }
+          this.addChild(childObj.id(), childObj);
         }
-        this.addChild(childObj.id(), childObj);
       });
     }
   }
@@ -356,6 +363,10 @@ export default function () {
     return _internalProps.id;
   }
 
+  function noriType() {
+    return _componentType;
+  }
+
   function dom() {
     if (!_domElementCache) {
       _domElementCache = document.querySelector('.' + this.className());
@@ -383,6 +394,7 @@ export default function () {
     setProps,
     getDefaultProps,
     id,
+    noriType,
     dom,
     html,
     isMounted,

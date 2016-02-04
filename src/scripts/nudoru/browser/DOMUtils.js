@@ -194,7 +194,7 @@ export default {
   /**
    * Get an array of elements in the container returned as Array instead of a Node list
    */
-    getQSElementsAsArray(el, cls) {
+  getQSElementsAsArray(el, cls) {
     return Array.prototype.slice.call(el.querySelectorAll(cls), 0);
   },
 
@@ -214,7 +214,7 @@ export default {
    * @param el
    * @returns {null}
    */
-    captureFormData(el) {
+  captureFormData(el) {
     var dataObj = Object.create(null),
         textareaEls, inputEls, selectEls;
 

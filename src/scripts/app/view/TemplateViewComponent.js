@@ -1,4 +1,4 @@
-import Nori from '../../nori/Nori.js';
+import {defineComponent} from '../../nori/Nori.js';
 import NoriActions from '../../nori/action/ActionCreator';
 import Template from '../../nori/view/Templating.js';
 
@@ -6,7 +6,7 @@ import Template from '../../nori/view/Templating.js';
  * Module for a dynamic application view for a route or a persistent view
  */
 
-export default Nori.defineComponent('TemplateViewComponent',{
+export default defineComponent('TemplateViewComponent',{
 
   mixins: [],
 

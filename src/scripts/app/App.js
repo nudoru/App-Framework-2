@@ -1,4 +1,4 @@
-import Nori from '../nori/Nori.js';
+import {createClass} from '../nori/Nori.js';
 import AppActions from './action/ActionCreator.js';
 import AppActionConstants from './action/ActionConstants.js';
 import NoriActions from '../nori/action/ActionCreator.js';
@@ -12,7 +12,7 @@ require('!style!css!sass!../../sass/app.sass');
  * bootstrapping the app and possibly handling socket/server interaction.
  * Any additional functionality should be handled in a specific module.
  */
-let App = Nori.createClass({
+let App = createClass({
 
   mixins: [],
 

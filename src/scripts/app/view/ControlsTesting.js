@@ -1,4 +1,4 @@
-import Nori from '../../nori/Nori.js';
+import {defineComponent} from '../../nori/Nori.js';
 import Template from '../../nori/view/Templating.js';
 
 /**
@@ -6,7 +6,7 @@ import Template from '../../nori/view/Templating.js';
  */
 
 
-export default Nori.defineComponent('ControlsTest', {
+export default defineComponent('ControlsTest', {
 
   componentDidMount() {
   },
