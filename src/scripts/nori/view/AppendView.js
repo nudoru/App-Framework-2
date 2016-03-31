@@ -24,6 +24,8 @@ export function replace(el, selector) {
   }
 }
 
+//https://medium.com/@fay_jai/dissecting-reactjs-lifecycle-methods-be4fdea11c6d#.hfspw5la9
+
 export function render(component, selector, attach) {
   if (typeof component.noriType === 'function') {
     let html           = component.render(),
